@@ -1,1 +1,0 @@
-ZnUrlShortenerDelegateTest is a functional test for ZnUrlShortenerDelegate

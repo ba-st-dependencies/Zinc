@@ -1,1 +1,0 @@
-Seaside component that handles the Microsoft SSO callback and displays profile information.

@@ -1,1 +1,0 @@
-ZnConnectionRejectedEvent is signalled when an HTTP server rejects an incoming connection from a client at address.

@@ -1,3 +1,0 @@
-accessing
-discoveryUrl
-	^discoveryUrl

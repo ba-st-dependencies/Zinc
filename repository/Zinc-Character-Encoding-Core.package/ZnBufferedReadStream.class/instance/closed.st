@@ -1,3 +1,0 @@
-testing
-closed
-	^ stream closed

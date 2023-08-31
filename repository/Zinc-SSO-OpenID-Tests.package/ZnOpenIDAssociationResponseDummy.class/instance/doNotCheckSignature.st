@@ -1,3 +1,0 @@
-actions
-doNotCheckSignature
-	signatureCheck := false.

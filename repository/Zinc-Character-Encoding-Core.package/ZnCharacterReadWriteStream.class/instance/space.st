@@ -1,4 +1,0 @@
-accessing
-space
-
-	writeStream space

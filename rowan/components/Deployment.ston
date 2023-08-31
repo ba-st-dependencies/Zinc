@@ -1,0 +1,34 @@
+RwSimpleProjectLoadComponentV2 {
+  #name : 'Deployment',
+  #preloadDoitName : 'scripts/deploymentPreload',
+  #postloadDoitName: 'scripts/deploymentPostload',
+  #projectNames : [
+    'Announcements',
+    'NeoJSON'
+  ],
+  #componentNames : [	],
+  #packageNames : [
+    'Zinc-Character-Encoding-Core',
+    'Zinc-Character-Encoding-GS64',
+    'Zinc-HTTP',
+    'Zinc-HTTP-GS64',
+    'Zinc-Networking-GS64',
+    'Zinc-Resource-Meta-Core',
+    'Zinc-Resource-Meta-GS64'
+  ],
+  #conditionalPackageMapSpecs : {
+    'gemstone' : {
+      'allusers' : {
+        #packageNameToPlatformPropertiesMap : {
+          'Zinc-Character-Encoding-Core' : { 'symbolDictName' : 'Zinc' },
+          'Zinc-Character-Encoding-GS64' : { 'symbolDictName' : 'Globals' },
+          'Zinc-HTTP' : { 'symbolDictName' : 'Zinc' },
+          'Zinc-HTTP-GS64' : { 'symbolDictName' : 'Globals' },
+          'Zinc-Networking-GS64' : { 'symbolDictName' : 'Zinc' },
+          'Zinc-Resource-Meta-Core' : { 'symbolDictName' : 'Zinc' },
+          'Zinc-Resource-Meta-GS64' : { 'symbolDictName' : 'Globals' }
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,0 @@
-accessing
-issuer
-
-	^discoveryDocument issuer

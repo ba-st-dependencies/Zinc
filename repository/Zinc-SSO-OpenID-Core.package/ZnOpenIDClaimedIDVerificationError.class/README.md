@@ -1,1 +1,0 @@
-Instances of this class represent a verification error of the claimedId.

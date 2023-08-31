@@ -1,3 +1,0 @@
-resources
-providerNameMyOpenID
-	^'myOpenID'

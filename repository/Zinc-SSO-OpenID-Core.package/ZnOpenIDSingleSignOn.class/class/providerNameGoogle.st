@@ -1,3 +1,0 @@
-resources
-providerNameGoogle
-	^'Google'

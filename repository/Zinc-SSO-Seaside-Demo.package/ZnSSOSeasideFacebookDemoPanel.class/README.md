@@ -1,1 +1,0 @@
-Seaside component that handles the Facebook SSO callback and displays profile information.
