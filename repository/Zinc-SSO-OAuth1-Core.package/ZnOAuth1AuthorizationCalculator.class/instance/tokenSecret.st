@@ -1,3 +1,0 @@
-accessing
-tokenSecret
-	^ tokenSecret

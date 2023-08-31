@@ -1,4 +1,0 @@
-resources
-dateAndTimeNow
-
-	^ DateAndTime now

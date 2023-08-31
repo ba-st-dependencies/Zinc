@@ -1,3 +1,0 @@
-actions
-doNotValidateEndpoint
-	endpointValidation := false.

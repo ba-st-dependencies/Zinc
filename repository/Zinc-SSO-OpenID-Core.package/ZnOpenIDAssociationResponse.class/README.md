@@ -1,1 +1,0 @@
-A ZnOpenIDAssociationResponse represents a Association Session Response message. This message is the respone to a association session request message.

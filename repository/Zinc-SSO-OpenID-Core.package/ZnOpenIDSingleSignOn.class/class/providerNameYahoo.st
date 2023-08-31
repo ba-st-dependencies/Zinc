@@ -1,3 +1,0 @@
-resources
-providerNameYahoo
-	^'Yahoo'

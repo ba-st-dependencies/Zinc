@@ -1,0 +1,10 @@
+RwLoadSpecificationV2 {
+  #specName: 'Announcements',
+  #projectName : 'Announcements',
+  #gitUrl : 'https://github.com/ba-st-dependencies/Announcements.git',
+  #revision : 'v1',
+  #projectSpecFile : 'rowan/project.ston',
+  #componentNames : [
+    'Deployment'
+  ]
+}

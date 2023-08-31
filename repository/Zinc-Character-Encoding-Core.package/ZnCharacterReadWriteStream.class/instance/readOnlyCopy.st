@@ -1,4 +1,0 @@
-accessing
-readOnlyCopy
-
-	^ readStream

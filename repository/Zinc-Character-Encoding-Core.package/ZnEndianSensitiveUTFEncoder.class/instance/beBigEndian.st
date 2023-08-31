@@ -1,3 +1,0 @@
-initialization
-beBigEndian
-	endianness := #big

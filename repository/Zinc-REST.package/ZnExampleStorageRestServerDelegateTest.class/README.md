@@ -1,1 +1,0 @@
-ZnExampleStorageRestServerDelegateTest contains unit tests for the ZnExampleStorageRestServerDelegate in combination with the calls under ZnExampleStorageRestCall.

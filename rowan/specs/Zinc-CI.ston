@@ -1,0 +1,14 @@
+RwLoadSpecificationV2 {
+  #specName: 'Zinc-CI',
+  #projectName : 'Zinc',
+  #diskUrl : '/opt/gemstone/projects/Zinc',
+  #projectSpecFile : 'rowan/project.ston',
+  #componentNames : [
+    'Tests'
+  ],
+  #customConditionalAttributes : [
+    'tests',
+    'sunit'
+  ],
+  #comment : 'Loading spec for the continuous integration setup'
+}

@@ -1,1 +1,0 @@
-Resource file library for the Zinc-SSO Seaside demo application.

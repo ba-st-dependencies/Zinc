@@ -1,4 +1,0 @@
-resources
-xmlParser
-
-	^ XMLDOMParser 

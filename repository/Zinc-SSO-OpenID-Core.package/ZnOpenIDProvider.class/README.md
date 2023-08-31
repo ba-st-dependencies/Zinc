@@ -1,1 +1,0 @@
-A ZnOpenIDProvider instance holds information about an OpenID Provider (OP)

@@ -1,3 +1,0 @@
-accessing
-pattern
-	^ #( 'storage' 'objects' '*' )

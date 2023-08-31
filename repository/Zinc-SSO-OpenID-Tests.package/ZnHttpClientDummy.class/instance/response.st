@@ -1,4 +1,0 @@
-api
-response
-
-	^ response

@@ -1,3 +1,0 @@
-accessing
-providerName
-	^provider name

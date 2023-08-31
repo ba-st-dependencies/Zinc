@@ -1,1 +1,0 @@
-Instances of this class represent a verification error caused by duplicate Nonce values.

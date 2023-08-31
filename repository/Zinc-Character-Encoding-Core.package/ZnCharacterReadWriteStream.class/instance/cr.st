@@ -1,4 +1,0 @@
-accessing
-cr
-
-	writeStream cr
