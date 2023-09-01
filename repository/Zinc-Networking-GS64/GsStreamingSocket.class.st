@@ -128,15 +128,21 @@ GsStreamingSocket >> isValid [
 ]
 
 { #category : #connection }
-GsStreamingSocket >> listenOn: portNum backlogSize: queueLength [
+GsStreamingSocket >> listenOn: portNumber [
 
-	^self nativeSocket makeServer: queueLength atPort: portNum
+	^self nativeSocket makeServerAtPort: portNumber
 ]
 
 { #category : #connection }
-GsStreamingSocket >> listenOn: portNum backlogSize: queueLength interface: address [
+GsStreamingSocket >> listenOn: portNumber backlogSize: queueLength [
 
-	^self nativeSocket makeServer: queueLength atPort: portNum atAddress: address
+	^self nativeSocket makeServer: queueLength atPort: portNumber
+]
+
+{ #category : #connection }
+GsStreamingSocket >> listenOn: portNumber backlogSize: queueLength interface: address [
+
+	^self nativeSocket makeServer: queueLength atPort: portNumber atAddress: address
 ]
 
 { #category : #accessing }
