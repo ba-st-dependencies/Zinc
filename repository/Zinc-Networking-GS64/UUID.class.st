@@ -36,7 +36,6 @@ See also:
 Class {
 	#name : #UUID,
 	#superclass : #ByteArray,
-	#type : #bytes,
 	#classVars : [
 		'GeneratorClass'
 	],
