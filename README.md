@@ -15,7 +15,7 @@ to deal with the HTTP networking protocol.
 [![GS64 Components](https://github.com/ba-st-dependencies/Zinc/actions/workflows/loading-gs64-components.yml/badge.svg)](https://github.com/ba-st-dependencies/Zinc/actions/workflows/loading-gs64-components.yml)
 [![Markdown Lint](https://github.com/ba-st-dependencies/Zinc/actions/workflows/markdown-lint.yml/badge.svg)](https://github.com/ba-st-dependencies/Zinc/actions/workflows/markdown-lint.yml)
 
-[![GS64 3.6.6](https://img.shields.io/badge/GS64-3.6.6-informational)](https://gemtalksystems.com/products/gs64/)
+[![GS64 3.7.0](https://img.shields.io/badge/GS64-3.7.0-informational)](https://gemtalksystems.com/products/gs64/)
 
 ## License
 
