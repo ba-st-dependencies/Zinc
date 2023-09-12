@@ -3,7 +3,7 @@ Extension { #name : #ByteArray }
 { #category : #'*Zinc-Character-Encoding-GS64' }
 ByteArray >> asString [
 
-	ZnNullEncoder new decodeBytes: self
+	^ ZnNullEncoder new decodeBytes: self
 ]
 
 { #category : #'*Zinc-Character-Encoding-GS64' }
