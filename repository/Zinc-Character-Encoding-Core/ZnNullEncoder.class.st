@@ -42,14 +42,6 @@ ZnNullEncoder >> backOnStream: stream [
 ]
 
 { #category : #convenience }
-ZnNullEncoder >> decodeBytes: bytes [
-	"Decode bytes and return the resulting string"
-	"Overwritten for performance reasons"
-
-	^ bytes asString
-]
-
-{ #category : #convenience }
 ZnNullEncoder >> encodeString: string [
 	"Encode string and return the resulting byte array"
 	"Overwritten for performance reasons"

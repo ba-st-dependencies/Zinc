@@ -117,7 +117,7 @@ ZnFileSystemUtils class >> fileNamed: fileName do: block [
 
 { #category : #queries }
 ZnFileSystemUtils class >> fileSizeFor: fileName [
-	^ fileName asFileReference entry size
+	^ fileName asFileReference size
 ]
 
 { #category : #streams }
@@ -133,7 +133,7 @@ ZnFileSystemUtils class >> fullNameFor: fileName [
 
 { #category : #queries }
 ZnFileSystemUtils class >> modificationTimeFor: path [
-	^ path asFileReference entry modificationTime
+	^ path asFileReference modificationTime
 ]
 
 { #category : #streams }
