@@ -528,7 +528,7 @@ ZnCharacterEncoderTest >> testUTF8ByteOrderMark [
 	self assert: decodedString equals: string.
 
 	bom := encoder encodeStringWithByteOrderMark: ''.
-	self should: [ encoder decodeBytes: bom ] raise: ZnIncomplete
+	self should: [ encoder decodeBytes: bom ] raise: ZnCharacterEncodingError 
 ]
 
 { #category : #testing }
