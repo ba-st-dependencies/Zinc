@@ -329,7 +329,7 @@ ZnDefaultServerDelegate >> prefixMap [
 
 { #category : #private }
 ZnDefaultServerDelegate >> processes [
-	^ (Process allSubInstances
+	^ (Processor allProcesses
 		reject: [ :each | each isTerminated or: [ each = Processor activeProcess ] ])
 		sorted: [ :a :b | a priority >= b priority ]
 ]
