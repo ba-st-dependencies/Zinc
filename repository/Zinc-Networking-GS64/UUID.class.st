@@ -141,7 +141,7 @@ UUID >> asString36 [
 { #category : #initialization }
 UUID >> initialize [
 	super initialize.
-	UUIDGenerator default placeFields: self
+	self class generatorClass default placeFields: self
 ]
 
 { #category : #testing }

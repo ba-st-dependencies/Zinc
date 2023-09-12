@@ -73,6 +73,7 @@ FastUUIDGenerator >> next [
 { #category : #initialization }
 FastUUIDGenerator >> placeFields: aPlaceHolder [
 
+	self generateFieldsVersion4.
 	aPlaceHolder
 		unsigned32At: 1 put: bits1;
 		unsigned32At: 5 put: bits2;
