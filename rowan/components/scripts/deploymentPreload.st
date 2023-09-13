@@ -119,21 +119,7 @@ dictionaries: GsCurrentSession currentSession symbolList
 			^ code ].
 	^ self errorIllegalLeadingByte'
  dictionaries: GsCurrentSession currentSession symbolList
- category: 'encoding - decoding';
-compileMethod:
-  'readInto: string startingAt: offset count: requestedCount fromStream: stream
-	"Read requestedCount characters into string starting at offset,
-	returning the number read, there could be less available when stream is atEnd."
-
-	| stringBuffer |
-	stringBuffer := string.
-	offset to: offset + requestedCount - 1 do: [ :index | | codePoint |
-		stream atEnd ifTrue: [ ^ index - offset ].
-		codePoint := self nextCodePointFromStream: stream.
-		stringBuffer at: index put: (Character value: codePoint) ].
-	^ requestedCount'
- dictionaries: GsCurrentSession currentSession symbolList
- category: 'convenience'.
+ category: 'encoding - decoding'.
 ByteArray
 compileMethod:
 'decodeFromUTF8
@@ -154,16 +140,6 @@ CharacterCollection
  dictionaries: GsCurrentSession currentSession symbolList
  category: '*filesystem-gemstone-kernel'.
 ZnCharacterEncoder
-compileMethod:
-'encodedByteCountForCodePoints: codePoints
-	"Return the exact number of bytes it would take to encode codePoints as a byte array"
-
-	^ codePoints
-		inject: 0
-		into: [ :sum :each |
-			sum + (self encodedByteCountForCodePoint: each) ]'
- dictionaries: GsCurrentSession currentSession symbolList
- category: 'Encoding';
  compileMethod:
  'encodeCodePoints: codePoints
 	"Encode codePoints and return the resulting byte array"

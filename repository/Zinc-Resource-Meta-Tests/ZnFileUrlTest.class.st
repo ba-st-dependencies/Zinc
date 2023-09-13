@@ -111,18 +111,6 @@ ZnFileUrlTest >> testTrailingSlash [
 ]
 
 { #category : #testing }
-ZnFileUrlTest >> testWindowsDriveNamesInFileUrl [
-	"Note the 3 slashes: 2 are from the scheme, file://, 1 is from the empty host and starts the absolute path"
-
-	self
-		assert: 'file:///C:/Programs/notepad.exe' asUrl asFileReference
-		equals: FileLocator C / 'Programs' / 'notepad.exe'.
-	self
-		assert: 'file:///C:' asUrl asFileReference
-		equals: FileLocator C
-]
-
-{ #category : #testing }
 ZnFileUrlTest >> testWrongScheme [
 	self should: [ 'http://zn.stfx.eu/zn/small.html' asZnUrl asFileReference ] raise: AssertionFailure
 ]

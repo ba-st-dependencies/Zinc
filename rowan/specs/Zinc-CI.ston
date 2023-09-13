@@ -1,7 +1,7 @@
 RwLoadSpecificationV2 {
   #specName: 'Zinc-CI',
   #projectName : 'Zinc',
-  #diskUrl : '/opt/gemstone/projects/Zinc',
+  #diskUrl : 'Zinc',
   #projectSpecFile : 'rowan/project.ston',
   #componentNames : [
     'Tests'
