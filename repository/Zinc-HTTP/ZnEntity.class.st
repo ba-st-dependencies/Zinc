@@ -14,7 +14,7 @@ Class {
 		'contentType',
 		'contentLength'
 	],
-	#category : 'Zinc-HTTP-Core'
+	#category : #'Zinc-HTTP-Core'
 }
 
 { #category : #accessing }
@@ -161,6 +161,12 @@ ZnEntity >> asByteArray [
 	"Return the ByteArray that is the binary, encoded representation of the receiver"
 
 	^ ByteArray streamContents: [ :stream | self writeOn: stream ]
+]
+
+{ #category : #converting }
+ZnEntity >> asString [
+
+	^ String streamContents: [ :stream | self printContentsOn: stream ]
 ]
 
 { #category : #'initialize-release' }
