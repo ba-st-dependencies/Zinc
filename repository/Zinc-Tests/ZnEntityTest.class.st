@@ -1,7 +1,7 @@
 Class {
 	#name : #ZnEntityTest,
 	#superclass : #TestCase,
-	#category : 'Zinc-Tests'
+	#category : #'Zinc-Tests'
 }
 
 { #category : #testing }
@@ -38,6 +38,24 @@ ZnEntityTest >> testApplicationUrlEncodingWriteRead [
 		andLength: bytes size.
 	self assert: (parsedEntity at: 'Param1') equals: 'ValueA'.
 	self assert: (parsedEntity at: 'Param2') equals: 'ValueB'
+]
+
+{ #category : #testing }
+ZnEntityTest >> testAsString [
+
+	self
+		assert: ( ZnEntity text: 'Regression test' ) asString
+		equals: 'text/plain;charset=utf-8  Regression test'.
+
+	self
+		assert: ( ZnEntity bytes: #[ 12 13 45 ] ) asString
+		equals: 'application/octet-stream 3B #[12 13 45]'.
+
+	self assert: ( ZnEntity json: '{"test":1}' ) asString equals: 'application/json  {"test":1}'.
+
+	self
+		assert: ( ZnEntity xml: '<test><sub></sub></test>' ) asString
+		equals: 'application/xml  <test><sub></sub></test>'
 ]
 
 { #category : #testing }
