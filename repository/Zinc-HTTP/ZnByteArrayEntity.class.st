@@ -69,9 +69,14 @@ ZnByteArrayEntity >> isEmpty [
 
 { #category : #printing }
 ZnByteArrayEntity >> printContentsOn: stream [
+
 	super printContentsOn: stream.
-	self bytes notNil ifTrue: [
-		stream space; print: self bytes ]
+	self bytes ifNotNil: [ :byteContents |
+		stream space.
+		stream nextPutAll: '#['.
+		byteContents do: [ :byte | stream nextPutAll: byte asString ] separatedBy: [ stream space ].
+		stream nextPutAll: ']'
+		]
 ]
 
 { #category : #'initialize-release' }
