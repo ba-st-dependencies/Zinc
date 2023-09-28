@@ -163,12 +163,6 @@ ZnEntity >> asByteArray [
 	^ ByteArray streamContents: [ :stream | self writeOn: stream ]
 ]
 
-{ #category : #converting }
-ZnEntity >> asString [
-
-	^ String streamContents: [ :stream | self printContentsOn: stream ]
-]
-
 { #category : #'initialize-release' }
 ZnEntity >> close [
 ]
