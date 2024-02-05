@@ -1,6 +1,6 @@
 Class {
-	#name : #GsSocketStream,
-	#superclass : #Object,
+	#name : 'GsSocketStream',
+	#superclass : 'Object',
 	#instVars : [
 		'inNextToWrite',
 		'inBuffer',
@@ -14,17 +14,18 @@ Class {
 		'timeout',
 		'socketHolder'
 	],
-	#category : #'Zinc-Networking-GS64'
+	#category : 'Zinc-Networking-GS64',
+	#package : 'Zinc-Networking-GS64'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketStream class >> on: socket [
 	"Create a socket stream on a connected server socket."
 
 	^ self basicNew initialize socket: socket
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 GsSocketStream class >> openConnectionToHost: host port: portNumber timeout: timeoutSeconds [
 
 	| socket |
@@ -35,7 +36,7 @@ GsSocketStream class >> openConnectionToHost: host port: portNumber timeout: tim
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 GsSocketStream class >> openConnectionToHostNamed: hostName port: portNumber [
 
 	| socket |
@@ -45,7 +46,7 @@ GsSocketStream class >> openConnectionToHostNamed: hostName port: portNumber [
 	^ self on: socket
 ]
 
-{ #category : #'stream writing' }
+{ #category : 'stream writing' }
 GsSocketStream >> << items [
 
  	items putOn: self.
@@ -53,7 +54,7 @@ GsSocketStream >> << items [
 	^ self
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketStream >> adjustInBuffer: bytesRead [
 	"Adjust markers and possibly grow inBuffer or move data down.
 	Currently grows through doubling when less than 1024 bytes are left.
@@ -73,7 +74,7 @@ GsSocketStream >> adjustInBuffer: bytesRead [
 	^old
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketStream >> adjustOutBuffer: bytesToWrite [
 	"Possibly grow outBuffer to accommodate the new data.
 	Currently grows through doubling when less
@@ -85,7 +86,7 @@ GsSocketStream >> adjustOutBuffer: bytesToWrite [
 						replaceFrom: 1 to: outBuffer size with: outBuffer startingAt: 1]
 ]
 
-{ #category : #configuration }
+{ #category : 'configuration' }
 GsSocketStream >> ascii [
 	"Tell the SocketStream to send data
 	as Strings instead of ByteArrays.
@@ -99,7 +100,7 @@ GsSocketStream >> ascii [
 			outBuffer := outBuffer asString]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsSocketStream >> atEnd [
 	"There is nothing more to read when
 	there is no more data in our inBuffer, the socket
@@ -113,7 +114,7 @@ GsSocketStream >> atEnd [
 		and: [self isDataAvailable not]
 ]
 
-{ #category : #configuration }
+{ #category : 'configuration' }
 GsSocketStream >> autoFlush: aBoolean [
 	"If autoFlush is enabled data will be sent through
 	the socket (flushed) when the bufferSize is reached
@@ -124,7 +125,7 @@ GsSocketStream >> autoFlush: aBoolean [
 	autoFlush := aBoolean
 ]
 
-{ #category : #configuration }
+{ #category : 'configuration' }
 GsSocketStream >> binary [
 	"Tell the SocketStream to send data
 	as ByteArrays instead of Strings.
@@ -138,7 +139,7 @@ GsSocketStream >> binary [
 			outBuffer := outBuffer asByteArray]
 ]
 
-{ #category : #configuration }
+{ #category : 'configuration' }
 GsSocketStream >> bufferSize: anInt [
 	"Default buffer size is 4kb.
 	increased from earlier 2000 bytes."
@@ -146,7 +147,7 @@ GsSocketStream >> bufferSize: anInt [
 	bufferSize := anInt
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketStream >> checkFlush [
 	"If autoFlush is true we flush if
 	we have reached the bufferSize
@@ -156,7 +157,7 @@ GsSocketStream >> checkFlush [
 		ifTrue: [self flush]
 ]
 
-{ #category : #control }
+{ #category : 'control' }
 GsSocketStream >> close [
 	"Flush any data still not sent
 	and take care of the socket."
@@ -164,26 +165,26 @@ GsSocketStream >> close [
 	[ self flush ] ensure: [ self destroy ]
 ]
 
-{ #category : #'stream writing' }
+{ #category : 'stream writing' }
 GsSocketStream >> cr [
 
 	self nextPutAll: String cr
 ]
 
-{ #category : #'stream writing' }
+{ #category : 'stream writing' }
 GsSocketStream >> crlf [
 
 	self nextPutAll: String crlf
 ]
 
-{ #category : #control }
+{ #category : 'control' }
 GsSocketStream >> destroy [
   "Destroy the receiver and its underlying socket. Does not attempt to flush the output buffers. For a graceful close use SocketStream>>close instead."
 
   socketHolder ifNotNil: [ self socket close ]
 ]
 
-{ #category : #control }
+{ #category : 'control' }
 GsSocketStream >> flush [
 	"If the other end is connected and we have something
 	to send, then we send it and reset the outBuffer."
@@ -193,21 +194,21 @@ GsSocketStream >> flush [
 		outNextToWrite := 1 ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketStream >> growInBuffer [
 	"Grows through doubling."
 
 	self resizeInBuffer: inBuffer size * 2
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GsSocketStream >> inBufferSize [
 	"Answers the current size of data in the inBuffer."
 
 	^inNextToWrite - lastRead - 1
 ]
 
-{ #category : #initialize }
+{ #category : 'initialize' }
 GsSocketStream >> initialize [
 
 	super initialize.
@@ -217,20 +218,20 @@ GsSocketStream >> initialize [
 	self ascii
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsSocketStream >> isBinary [
 
 	^ binary
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsSocketStream >> isConnected [
   "The stream is connected if the socket is."
 
   ^ self socket isConnected
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsSocketStream >> isDataAvailable [
   "It the inbuffer is empty, we check the socket for data.
 	If it claims to have data available to read, we try to read
@@ -249,26 +250,26 @@ GsSocketStream >> isDataAvailable [
         isDataAvailable ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsSocketStream >> isEmpty [
 	"Test if there are more data to read."
 
 	^self isInBufferEmpty and: [self isDataAvailable not]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketStream >> isInBufferEmpty [
 	"Any data in the buffer?"
  
 	^lastRead + 1 = inNextToWrite
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsSocketStream >> isStream [
 	^true
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketStream >> moveInBufferDown [
 	"Move down contents of inBuffer to the start.
 	Return distance moved."
@@ -282,7 +283,7 @@ GsSocketStream >> moveInBufferDown [
 	^distanceMoved
 ]
 
-{ #category : #'stream reading' }
+{ #category : 'stream reading' }
 GsSocketStream >> next [
   "Return next byte, if inBuffer is empty
 	we recieve some more data and try again."
@@ -298,7 +299,7 @@ GsSocketStream >> next [
   ^ inBuffer at: lastRead
 ]
 
-{ #category : #'stream reading' }
+{ #category : 'stream reading' }
 GsSocketStream >> next: anInteger [
 	"Answer anInteger bytes of data.
 
@@ -311,7 +312,7 @@ GsSocketStream >> next: anInteger [
 	^inBuffer copyFrom: start to: lastRead
 ]
 
-{ #category : #'stream reading' }
+{ #category : 'stream reading' }
 GsSocketStream >> next: n into: aCollection [
 	"Read n objects into the given collection.
 	Return aCollection or a partial copy if less than
@@ -319,7 +320,7 @@ GsSocketStream >> next: n into: aCollection [
 	^self next: n into: aCollection startingAt: 1
 ]
 
-{ #category : #'stream reading' }
+{ #category : 'stream reading' }
 GsSocketStream >> next: anInteger into: aCollection startingAt: startIndex [
 	"Read n objects into the given collection. 
 	Return aCollection or a partial copy if less than
@@ -348,7 +349,7 @@ GsSocketStream >> next: anInteger into: aCollection startingAt: startIndex [
 		ifFalse:[aCollection]
 ]
 
-{ #category : #'stream writing' }
+{ #category : 'stream writing' }
 GsSocketStream >> next: n putAll: aCollection startingAt: startIndex [
 	"Put a String or a ByteArray onto the stream.
 	Currently a large collection will allocate a large buffer.
@@ -361,7 +362,7 @@ GsSocketStream >> next: n putAll: aCollection startingAt: startIndex [
 	^aCollection
 ]
 
-{ #category : #'stream reading' }
+{ #category : 'stream reading' }
 GsSocketStream >> nextInto: aCollection [
 	"Read the next elements of the receiver into aCollection.
 	Return aCollection or a partial copy if less than aCollection
@@ -369,7 +370,7 @@ GsSocketStream >> nextInto: aCollection [
 	^self next: aCollection size into: aCollection startingAt: 1.
 ]
 
-{ #category : #'stream writing' }
+{ #category : 'stream writing' }
 GsSocketStream >> nextPut: char [
 	"Put a single Character or byte onto the stream."
 
@@ -384,7 +385,7 @@ GsSocketStream >> nextPut: char [
 	^ char
 ]
 
-{ #category : #'stream writing' }
+{ #category : 'stream writing' }
 GsSocketStream >> nextPutAll: aCollection [
 	"Put a String or a ByteArray onto the stream.
 	Currently a large collection will allocate a large buffer."
@@ -398,7 +399,7 @@ GsSocketStream >> nextPutAll: aCollection [
 	^aCollection
 ]
 
-{ #category : #'stream reading' }
+{ #category : 'stream reading' }
 GsSocketStream >> peek [
 	"Return next byte, if inBuffer is empty
 	we recieve some more data and try again.
@@ -411,17 +412,17 @@ GsSocketStream >> peek [
 	^inBuffer at: lastRead+1
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GsSocketStream >> position [
 	^lastRead
 ]
 
-{ #category : #'stream writing' }
+{ #category : 'stream writing' }
 GsSocketStream >> print: anObject [
 	anObject printOn: self
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 GsSocketStream >> printOn: aStream [
 	"Display buffer sizes."
 
@@ -435,7 +436,7 @@ GsSocketStream >> printOn: aStream [
 			nextPutAll: 'kb]' ]
 ]
 
-{ #category : #'stream reading' }
+{ #category : 'stream reading' }
 GsSocketStream >> readInto: aCollection startingAt: startIndex count: anInteger [
 	"Read n objects into the given collection starting at startIndex. 
 	Return number of elements that have been read."
@@ -461,7 +462,7 @@ GsSocketStream >> readInto: aCollection startingAt: startIndex count: anInteger 
 	^amount
 ]
 
-{ #category : #'private - socket' }
+{ #category : 'private - socket' }
 GsSocketStream >> receiveData [
 	"Receive data with timeout if it has been set.
 	Return the position in the buffer where the
@@ -481,7 +482,7 @@ GsSocketStream >> receiveData [
 	^ self adjustInBuffer: recentlyRead
 ]
 
-{ #category : #'private - socket' }
+{ #category : 'private - socket' }
 GsSocketStream >> receiveData: nBytes [
 	"Keep reading the socket until we have nBytes
 	in the inBuffer or we reach the end. This method
@@ -496,7 +497,7 @@ GsSocketStream >> receiveData: nBytes [
 		self receiveData ]
 ]
 
-{ #category : #'private - socket' }
+{ #category : 'private - socket' }
 GsSocketStream >> receiveDataIfAvailable [
   "Only used to check that there really is data to read
 	from the socket after it signals dataAvailable.
@@ -512,7 +513,7 @@ GsSocketStream >> receiveDataIfAvailable [
   ^ self adjustInBuffer: recentlyRead
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketStream >> resetBuffers [
 	"Recreate the buffers with default start sizes."
 
@@ -523,7 +524,7 @@ GsSocketStream >> resetBuffers [
 	outNextToWrite := 1
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketStream >> resizeInBuffer: newSize [
 	"Resize the inBuffer by recreating it.
 	This also has the effect of getting rid of
@@ -534,33 +535,33 @@ GsSocketStream >> resizeInBuffer: newSize [
 					replaceFrom: 1 to: inNextToWrite - 1 with: inBuffer startingAt: 1
 ]
 
-{ #category : #configuration }
+{ #category : 'configuration' }
 GsSocketStream >> shouldSignal: aBoolean [
 	"Ignore. We always wan't to signal errors"
 
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsSocketStream >> shouldTimeout [
 
 	^ self timeout > 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GsSocketStream >> size [
 	"This is just a guess, probably more was written."
 
 	^ outNextToWrite
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GsSocketStream >> socket [
 
 	^ socketHolder value
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketStream >> socket: aSocket [
 
 	self _setNoStubbing.
@@ -569,13 +570,13 @@ GsSocketStream >> socket: aSocket [
 	socketHolder := TransientStackValue value: aSocket
 ]
 
-{ #category : #'stream writing' }
+{ #category : 'stream writing' }
 GsSocketStream >> space [
 
 	self nextPut: Character space
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketStream >> streamBuffer: size [
 	"Create a buffer of the correct class and given size."
 
@@ -584,7 +585,7 @@ GsSocketStream >> streamBuffer: size [
 		ifFalse: [String]) new: size
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GsSocketStream >> timeout [
 	"Lazily initialized unless it has been set explicitly."
 
@@ -592,7 +593,7 @@ GsSocketStream >> timeout [
 	^timeout
 ]
 
-{ #category : #configuration }
+{ #category : 'configuration' }
 GsSocketStream >> timeout: seconds [
 
 	timeout := seconds

@@ -1,19 +1,20 @@
 Class {
-	#name : #TransientStackValue,
-	#superclass : #Object,
+	#name : 'TransientStackValue',
+	#superclass : 'Object',
 	#instVars : [
 		'value'
 	],
-	#category : #'Zinc-Networking-GS64'
+	#category : 'Zinc-Networking-GS64',
+	#package : 'Zinc-Networking-GS64'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TransientStackValue class >> value: anObject [
 
 	^self new value: anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TransientStackValue >> initialize [
 	"ensure that I stay in memory"
 
@@ -21,13 +22,13 @@ TransientStackValue >> initialize [
 	self _setNoStubbing
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TransientStackValue >> value [
 
 	^ value
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TransientStackValue >> value: anObject [
 
 	value := anObject
