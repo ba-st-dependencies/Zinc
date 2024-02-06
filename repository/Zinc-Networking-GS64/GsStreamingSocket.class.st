@@ -1,16 +1,17 @@
 Class {
-	#name : #GsStreamingSocket,
-	#superclass : #Object,
+	#name : 'GsStreamingSocket',
+	#superclass : 'Object',
 	#instVars : [
 		'nativeSocketHolder'
 	],
 	#classVars : [
 		'OptionMappings'
 	],
-	#category : #'Zinc-Networking-GS64'
+	#category : 'Zinc-Networking-GS64',
+	#package : 'Zinc-Networking-GS64'
 }
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 GsStreamingSocket class >> connectToServerOnHost: hostName port: portNumber [
 
 	| newSocket |
@@ -20,7 +21,7 @@ GsStreamingSocket class >> connectToServerOnHost: hostName port: portNumber [
 	^ newSocket
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 GsStreamingSocket class >> initialize [
 
 	OptionMappings := Dictionary new.
@@ -40,38 +41,38 @@ GsStreamingSocket class >> initialize [
 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket class >> isBooleanOption: anOptionName [
 
 	^ (OptionMappings includesKey: anOptionName) and: [
 		  (#( 'SO_RCVBUF' 'SO_SNDBUF' ) includes: anOptionName) not ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket class >> mapOptionNamed: anOption [
 
 	^ OptionMappings at: anOption ifAbsent: [ anOption ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 GsStreamingSocket class >> newTCP [
 
 	^ self onNativeSocket: GsSocket new
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket class >> onNativeSocket: aNativeSocket [
 
 	^ self new onNativeSocket: aNativeSocket
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 GsStreamingSocket class >> standardTimeout [
 
 	^ 0
 ]
 
-{ #category : #connection }
+{ #category : 'connection' }
 GsStreamingSocket >> close [
 	"^self
 	The same as the close() posix function."
@@ -80,7 +81,7 @@ GsStreamingSocket >> close [
 	^self
 ]
 
-{ #category : #connection }
+{ #category : 'connection' }
 GsStreamingSocket >> connectTo: aSocketAddress [
 
 	(self nativeSocket
@@ -90,7 +91,7 @@ GsStreamingSocket >> connectTo: aSocketAddress [
 	^ self
 ]
 
-{ #category : #connection }
+{ #category : 'connection' }
 GsStreamingSocket >> connectTo: host port: portNumber timeout: timeoutSeconds [
 
 	^ self nativeSocket
@@ -99,78 +100,78 @@ GsStreamingSocket >> connectTo: host port: portNumber timeout: timeoutSeconds [
 		  timeoutMs: timeoutSeconds * 1000
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsStreamingSocket >> dataAvailable [
 	self isConnected ifFalse:[^false].
 	^self readyForRead
 ]
 
-{ #category : #connection }
+{ #category : 'connection' }
 GsStreamingSocket >> destroy [
 
 	self close
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsStreamingSocket >> isActive [
 
 	^ self nativeSocket isActive
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsStreamingSocket >> isConnected [
 	^self nativeSocket isConnected
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsStreamingSocket >> isValid [
   ^ self nativeSocket notNil and: [ self nativeSocket isActive ]
 ]
 
-{ #category : #connection }
+{ #category : 'connection' }
 GsStreamingSocket >> listenOn: portNumber [
 
 	^self nativeSocket makeServerAtPort: portNumber
 ]
 
-{ #category : #connection }
+{ #category : 'connection' }
 GsStreamingSocket >> listenOn: portNumber backlogSize: queueLength [
 
 	^self nativeSocket makeServer: queueLength atPort: portNumber
 ]
 
-{ #category : #connection }
+{ #category : 'connection' }
 GsStreamingSocket >> listenOn: portNumber backlogSize: queueLength interface: address [
 
 	^self nativeSocket makeServer: queueLength atPort: portNumber atAddress: address
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GsStreamingSocket >> localPort [
 
 	^ self port
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket >> nativeSocket [
 
 	^ nativeSocketHolder value
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 GsStreamingSocket >> onNativeSocket: aNativeSocket [
 
 	self _setNoStubbing. "as long as I am in memory prevent stubbing of my instance variables ... I will stay in memory as long as I am referenced from stack.."
 	nativeSocketHolder := TransientStackValue value: aNativeSocket
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GsStreamingSocket >> port [
 
 	^ self nativeSocket port
 ]
 
-{ #category : #receiving }
+{ #category : 'receiving' }
 GsStreamingSocket >> readInto: aByteArray startingAt: startIndex for: aNumberOfBytes [
 	"^an Integer
 I return the number of bytes actually read."
@@ -185,7 +186,7 @@ I return the number of bytes actually read."
 	^ result
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 GsStreamingSocket >> readyForRead [
 	"^a Boolean
 I return true if a read operation will return some number of bytes."
@@ -193,7 +194,7 @@ I return true if a read operation will return some number of bytes."
 	^ self nativeSocket readWillNotBlock ifNil: [ false ]
 ]
 
-{ #category : #receiving }
+{ #category : 'receiving' }
 GsStreamingSocket >> receiveDataSignallingClosedInto: aStringOrByteArray startingAt: aNumber [
 	"Receive data into the given buffer and return the number of bytes received. 
 	Note the given buffer may be only partially filled by the received data.
@@ -209,7 +210,7 @@ GsStreamingSocket >> receiveDataSignallingClosedInto: aStringOrByteArray startin
 	^bytesRead
 ]
 
-{ #category : #receiving }
+{ #category : 'receiving' }
 GsStreamingSocket >> receiveDataSignallingTimeout: timeout into: aStringOrByteArray startingAt: aNumber [
   "Receive data into the given buffer and return the number of bytes received. 
 	Note the given buffer may be only partially filled by the received data.
@@ -227,19 +228,19 @@ GsStreamingSocket >> receiveDataSignallingTimeout: timeout into: aStringOrByteAr
   ^ result
 ]
 
-{ #category : #receiving }
+{ #category : 'receiving' }
 GsStreamingSocket >> receiveSomeDataInto: aStringOrByteArray startingAt: aNumber [
 
 	^self readInto: aStringOrByteArray startingAt: aNumber for: (aStringOrByteArray size  -aNumber +1)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GsStreamingSocket >> remoteAddress [
 
 	^ self nativeSocket peerAddress
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 GsStreamingSocket >> sendData: buffer count: n [
 	"Send the amount of data from the given buffer"
 	| sent |
@@ -248,7 +249,7 @@ GsStreamingSocket >> sendData: buffer count: n [
 		sent := sent + (self sendSomeData: buffer startIndex: sent+1 count: (n-sent))].
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket >> sendSomeData: aStringOrByteArray startIndex: startIndex count: count [
 
 	^ self
@@ -257,7 +258,7 @@ GsStreamingSocket >> sendSomeData: aStringOrByteArray startIndex: startIndex cou
 		  for: count
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GsStreamingSocket >> setOption: anOption value: aValue [
 
 	self nativeSocket
@@ -267,23 +268,30 @@ GsStreamingSocket >> setOption: anOption value: aValue [
 				 otherwise: [ aValue ])
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket >> signalWithLastErrorIn: stringTemplate [
 
 	^ NetworkError signal: (stringTemplate expandMacrosWith:
 			   self nativeSocket lastErrorString asString)
 ]
 
-{ #category : #waiting }
+{ #category : 'waiting' }
 GsStreamingSocket >> waitForAcceptFor: timeoutInSeconds [
+	"Compatibility with Pharo sockets, return nil if timed out"
+
+	^ self waitForAcceptFor: timeoutInSeconds ifTimedOut: [nil]
+]
+
+{ #category : 'waiting' }
+GsStreamingSocket >> waitForAcceptFor: timeoutInSeconds ifTimedOut: timeoutBlock [
 	"Wait and accept an incoming connection"
 
 	^ (self nativeSocket acceptTimeoutMs: timeoutInSeconds * 1000)
-		  ifNil: [ self signalWithLastErrorIn: 'Error during accept: <1s>' ]
+		  ifNil: timeoutBlock
 		  ifNotNil: [ :newSocket | self class onNativeSocket: newSocket ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket >> waitForData [
 	"Wait for data to arrive.  This method will block until
 	data is available or the socket is closed.  If the socket is closed
@@ -293,7 +301,7 @@ GsStreamingSocket >> waitForData [
 		[ConnectionClosed signal: 'Connection close while waiting for data.']
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket >> waitForDataFor: timeout [
 	"Wait for the given nr of seconds for data to arrive.
 	Signal a time out or connection close exception if either happens before data becomes available."
@@ -304,7 +312,7 @@ GsStreamingSocket >> waitForDataFor: timeout [
 		ifTimedOut: [ConnectionTimedOut signal: 'Data receive timed out.']
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket >> waitForDataFor: timeout ifClosed: closedBlock ifTimedOut: timedOutBlock [
   "Wait for the given nr of seconds for data to arrive."
 
@@ -327,7 +335,7 @@ GsStreamingSocket >> waitForDataFor: timeout ifClosed: closedBlock ifTimedOut: t
         ifFalse: [ ^ closedBlock value ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket >> waitForDataIfClosed: closedBlock [
 	"Wait indefinitely for data to arrive.  This method will block until
 	data is available or the socket is closed."
@@ -343,7 +351,7 @@ GsStreamingSocket >> waitForDataIfClosed: closedBlock [
 			self nativeSocket readWillNotBlockWithin: -1].
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket >> waitForNonBlockingReadActivityUpToMs: aNumberOfMilliseconds [
 	"^a Boolean
 I return true if there has been some read related activity on my underlying socket, otherwise false.  Note that activity may not mean that data is available.  It may just mean that the socket is in a new (perhaps error) state."
@@ -354,7 +362,7 @@ I return true if there has been some read related activity on my underlying sock
 	^ ans
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsStreamingSocket >> writeFrom: aByteArray startingAt: startIndex for: length [
 	"^an Integer
 I return the number of bytes actually written.  A GemStone socket may return nil.  This indicates that an error of some kind has occured."

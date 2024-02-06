@@ -1,20 +1,21 @@
 Class {
-	#name : #GsSocketAddress,
-	#superclass : #Object,
+	#name : 'GsSocketAddress',
+	#superclass : 'Object',
 	#instVars : [
 		'hostAddress',
 		'portNumber'
 	],
-	#category : #'Zinc-Networking-GS64'
+	#category : 'Zinc-Networking-GS64',
+	#package : 'Zinc-Networking-GS64'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 GsSocketAddress class >> host: aHostAddress port: aPortNumber [
 
 	^ self new host: aHostAddress port: aPortNumber
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 GsSocketAddress class >> hostName: aHostNameString port: aPortNumber [ 
 	"^an SpSocketAddress
 	I translate aHostNameString to an IP address and then create
@@ -29,7 +30,7 @@ GsSocketAddress class >> hostName: aHostNameString port: aPortNumber [
 				port: aPortNumber]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 GsSocketAddress class >> ipAddressForHostName: aHostNameString timeout: aTimeout [
 
 	^ [ GsSocket getHostAddressByName: aHostNameString ]
@@ -37,19 +38,19 @@ GsSocketAddress class >> ipAddressForHostName: aHostNameString timeout: aTimeout
 		  do: [ :error | NetworkError signal: error messageText ]
 ]
 
-{ #category : #lookups }
+{ #category : 'lookups' }
 GsSocketAddress class >> loopBackAddress [
 
 	^ self ipAddressForHostName: self loopBackName timeout: 60
 ]
 
-{ #category : #lookups }
+{ #category : 'lookups' }
 GsSocketAddress class >> loopBackName [
 
 	^ 'localhost'
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 GsSocketAddress >> host: aHostAddress port: aPortNumber [
 
 	hostAddress := aHostAddress.
@@ -57,13 +58,13 @@ GsSocketAddress >> host: aHostAddress port: aPortNumber [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GsSocketAddress >> hostAddress [
 
 	^ hostAddress
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 GsSocketAddress >> portNumber [
 
 	^ portNumber

@@ -1,6 +1,6 @@
 Class {
-	#name : #FastUUIDGenerator,
-	#superclass : #Object,
+	#name : 'FastUUIDGenerator',
+	#superclass : 'Object',
 	#instVars : [
 		'bits1',
 		'bits2',
@@ -9,16 +9,17 @@ Class {
 		'random',
 		'semaphore'
 	],
-	#category : #'Zinc-Networking-GS64'
+	#category : 'Zinc-Networking-GS64',
+	#package : 'Zinc-Networking-GS64'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FastUUIDGenerator class >> _defaultKey [
 
 	^ #'UUID_DEFAULT'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FastUUIDGenerator class >> default [
 
 	^ (SessionTemps current at: self _defaultKey ifAbsent: [  ]) ifNil: [
@@ -27,21 +28,21 @@ FastUUIDGenerator class >> default [
 		  SessionTemps current at: self _defaultKey put: default ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FastUUIDGenerator class >> initialize [
 
 	SessionTemps current removeKey: self _defaultKey ifAbsent: [].
 	UUID generatorClass: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FastUUIDGenerator class >> next [
 	"Return a UUID using the shared generator"
 	
 	^ self default next
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FastUUIDGenerator >> generateFieldsVersion4 [
 
 	semaphore critical: [
@@ -53,14 +54,14 @@ FastUUIDGenerator >> generateFieldsVersion4 [
 	bits3 := (bits3 bitAnd: 16r3FFFFFFF) bitOr: 16r80000000
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FastUUIDGenerator >> initialize [
 
 	random := Random new.
 	semaphore := Semaphore forMutualExclusion
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FastUUIDGenerator >> next [
 	"Return the next UUID"
 
@@ -70,7 +71,7 @@ FastUUIDGenerator >> next [
 	^ uuid
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FastUUIDGenerator >> placeFields: aPlaceHolder [
 
 	self generateFieldsVersion4.

@@ -1,1 +1,1 @@
-Package { #name : #'Zinc-Networking-GS64' }
+Package { #name : 'Zinc-Networking-GS64' }

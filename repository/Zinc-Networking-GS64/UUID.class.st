@@ -34,15 +34,16 @@ See also:
   https://tools.ietf.org/html/rfc4122
 "
 Class {
-	#name : #UUID,
-	#superclass : #ByteArray,
+	#name : 'UUID',
+	#superclass : 'ByteArray',
 	#classVars : [
 		'GeneratorClass'
 	],
-	#category : #'Zinc-Networking-GS64'
+	#category : 'Zinc-Networking-GS64',
+	#package : 'Zinc-Networking-GS64'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UUID class >> fromString: aString [
 	"Read a UUID from aString with my official representation, 32 lowercase hexadecimal (base 16) digits, displayed in five groups separated by hyphens, in the form 8-4-4-4-12 for a total of 36 characters (32 alphanumeric characters and four hyphens)"
 
@@ -53,26 +54,26 @@ UUID class >> fromString: aString [
 	^ uuid
 ]
 
-{ #category : #configuring }
+{ #category : 'configuring' }
 UUID class >> generatorClass [
 
 	^ GeneratorClass
 ]
 
-{ #category : #configuring }
+{ #category : 'configuring' }
 UUID class >> generatorClass: aClass [
 
 	GeneratorClass := aClass
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UUID class >> new [
 	"Create and return a new UUID"
 
 	^ (self new: 16)
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UUID class >> new: aSize [
 
 	(aSize == 16) ifFalse: [ self error: 'Wrong UUID size' ].
@@ -80,7 +81,7 @@ UUID class >> new: aSize [
 	^ (super new: aSize) initialize
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UUID class >> nilUUID [
 	"Return a empty un-initialized UUID, with all zero values, 00000000-0000-0000-0000-000000000000"
 	"Must call basicNew: here because I have a non-trivial initialize method."
@@ -88,7 +89,7 @@ UUID class >> nilUUID [
 	^ self basicNew: 16
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UUID >> < aMagnitude [
 	"Answer whether the receiver is less than the argument."
 
@@ -100,31 +101,31 @@ UUID >> < aMagnitude [
 	^false
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UUID >> <= uuid [
 
 	^ self = uuid or: [ self < uuid ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UUID >> > uuid [
 
 	^ uuid < self
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UUID >> >= uuid [
 
 	^ self = uuid or: [ uuid < self ]
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 UUID >> asString [
 
 	^ self printString
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 UUID >> asString36 [
 	"Return a String encoding the receiver as a base 36 number using 0-9 and lowercase a-z.
 	This is the shortest representation still being able to work as
@@ -137,20 +138,20 @@ UUID >> asString36 [
 	^ (num printStringRadix: 36) asLowercase
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UUID >> initialize [
 	super initialize.
 	self class generatorClass default placeFields: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UUID >> isNilUUID [
 	"Return true when I am equal to the nilUUID, 00000000-0000-0000-0000-000000000000, false otherwise"
 
 	^ self allSatisfy: [ :each | each isZero ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UUID >> printHexAt: index to: aStream [
 
 	| map v |
@@ -160,7 +161,7 @@ UUID >> printHexAt: index to: aStream [
 	aStream nextPut: (map at: (v bitAnd: 15) + 1)
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UUID >> printOn: aStream [
 	"Print my official representation, 32 lowercase hexadecimal digits, displayed in five groups separated by hyphens, in the form 8-4-4-4-12 for a total of 36 characters (32 alphanumeric characters and four hyphens) on aStream"
 
@@ -175,7 +176,7 @@ UUID >> printOn: aStream [
 	11 to: 16 do: [ :i | self printHexAt: i to: aStream ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UUID >> printString [
 	"Return a String with my official representation, 32 lowercase hexadecimal digits, displayed in five groups separated by hyphens, in the form 8-4-4-4-12 for a total of 36 characters (32 alphanumeric characters and four hyphens)"
 
@@ -184,7 +185,7 @@ UUID >> printString [
 		streamContents: [ :stringStream | self printOn: stringStream ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UUID >> readFrom: aStream [
 	"Read my official representation, 32 lowercase hexadecimal digits, displayed in five groups separated by hyphens, in the form 8-4-4-4-12 for a total of 36 characters (32 alphanumeric characters and four hyphens) from aStream"
 
