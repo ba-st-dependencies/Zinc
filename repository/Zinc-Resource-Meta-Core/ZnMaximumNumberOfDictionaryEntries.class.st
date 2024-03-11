@@ -20,3 +20,9 @@ ZnMaximumNumberOfDictionaryEntries >> default [
 
 	^ 256
 ]
+
+{ #category : #accessing }
+ZnMaximumNumberOfDictionaryEntries >> default [
+
+	^ self class default 
+]

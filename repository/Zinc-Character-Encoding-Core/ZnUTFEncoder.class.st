@@ -62,6 +62,25 @@ ZnUTFEncoder >> encodeStringWithByteOrderMark: string [
 		self next: string size putAll: string startingAt: 1 toStream: stream ]
 ]
 
+{ #category : 'convenience' }
+ZnUTFEncoder >> encodedByteCountFor: character [
+	"Return how many bytes are needed to encode character"
+
+	"We should use #codePoint but #asInteger is faster"
+
+	^ self encodedByteCountForCodePoint: character asInteger
+]
+
+{ #category : 'convenience' }
+ZnUTFEncoder >> encodedByteCountForString: string [
+	"Return the exact number of bytes it would take to encode string as a byte array"
+
+	^ string
+		inject: 0
+		into: [ :sum :each |
+			sum + (self encodedByteCountFor: each) ]
+]
+
 { #category : 'testing' }
 ZnUTFEncoder >> isSurrogateCodePoint: codePoint [
 	"Surrogate Code Points should not be encoded or decoded because they are not Unicode scalar values"

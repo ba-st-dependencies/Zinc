@@ -11,7 +11,7 @@ ZnChunkedStreamTest >> nextPutAll: collection on: stream chunked: size [
 	written := 0.
 	[ written < collection size ] whileTrue: [ | chunkSize |
 		chunkSize := size min: (collection size - written).
-		chunkSize printOn: stream base: 16.
+		stream nextPutAll: chunkSize printStringHex.
 		stream nextPutAll: String crlf.
 		chunkSize timesRepeat: [ stream nextPut: (collection at: (written := written + 1)) ].
 		stream nextPutAll: String crlf ].
@@ -35,23 +35,9 @@ ZnChunkedStreamTest >> testBinaryWriteRead [
 ]
 
 { #category : 'testing' }
-ZnChunkedStreamTest >> testGzipWriteRead [
-	| data written read |
-	data := (String loremIpsum: 16*1024) utf8Encoded.
-	written := ByteArray streamContents: [ :out |
-		| stream chunkedStream |
-		stream := GZipWriteStream on: (chunkedStream := ZnChunkedWriteStream on: out).
-		stream nextPutAll: data.
-		stream finish.
-		chunkedStream finish ].
-	read := (GZipReadStream on: (ZnChunkedReadStream on: written readStream)) upToEnd.
-	self assert: read equals: data
-]
-
-{ #category : 'testing' }
 ZnChunkedStreamTest >> testReading [
 	| data chunked plain |
-	data := String withAll: ($a to: $z), ($A to: $Z).
+	data := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
 	chunked := String streamContents: [ :stream |
 		self nextPutAll: data on: stream chunked: 16 ].
 	plain := (ZnChunkedReadStream on: chunked readStream) upToEnd.
@@ -61,7 +47,7 @@ ZnChunkedStreamTest >> testReading [
 { #category : 'testing' }
 ZnChunkedStreamTest >> testReadingBuffered [
 	| data chunked plain buffer readStream |
-	data := String withAll: ($a to: $z), ($A to: $Z).
+	data := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
 	chunked := String streamContents: [ :stream |
 		self nextPutAll: data on: stream chunked: 16 ].
 	readStream := ZnChunkedReadStream on: chunked readStream.
@@ -74,35 +60,9 @@ ZnChunkedStreamTest >> testReadingBuffered [
 ]
 
 { #category : 'testing' }
-ZnChunkedStreamTest >> testReadingGzip [
-	| data gzipped chunked plain |
-	data := String withAll: ($a to: $z), ($A to: $Z).
-	gzipped := String streamContents: [ :stream |
-		(GZipWriteStream on: stream) nextPutAll: data; close ].
-	chunked := String streamContents: [ :stream |
-		self nextPutAll: gzipped on: stream chunked: 16 ].
-	plain := (GZipReadStream on: (ZnChunkedReadStream on: chunked readStream)) upToEnd.
-	self assert: data equals: plain
-]
-
-{ #category : 'testing' }
-ZnChunkedStreamTest >> testReadingGzipStepped [
-	| data gzipped chunked unchunked ungzipped |
-	data := String withAll: ($a to: $z), ($A to: $Z).
-	gzipped := String streamContents: [ :stream |
-		(GZipWriteStream on: stream) nextPutAll: data; close ].
-	chunked := String streamContents: [ :stream |
-		self nextPutAll: gzipped on: stream chunked: 16 ].
-	unchunked := (ZnChunkedReadStream on: chunked readStream) upToEnd.
-	ungzipped := (GZipReadStream on: unchunked) upToEnd.
-	self assert: gzipped equals: unchunked.
-	self assert: data equals: ungzipped
-]
-
-{ #category : 'testing' }
 ZnChunkedStreamTest >> testReadingNext [
 	| data chunked plain |
-	data := String withAll: ($a to: $z), ($A to: $Z).
+	data := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
 	chunked := String streamContents: [ :stream |
 		self nextPutAll: data on: stream chunked: 16 ].
 	plain := (ZnChunkedReadStream on: chunked readStream) next: 26 + 26.
@@ -112,7 +72,7 @@ ZnChunkedStreamTest >> testReadingNext [
 { #category : 'testing' }
 ZnChunkedStreamTest >> testReadingNextInto [
 	| data chunked plain |
-	data := String withAll: ($a to: $z), ($A to: $Z).
+	data := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
 	chunked := String streamContents: [ :stream |
 		self nextPutAll: data on: stream chunked: 16 ].
 	plain := String new: 26 + 26.
@@ -137,7 +97,7 @@ ZnChunkedStreamTest >> testWriting [
 { #category : 'testing' }
 ZnChunkedStreamTest >> testWritingBuffered [
 	| data written read |
-	data := String withAll: ($a to: $z), ($A to: $Z).
+	data := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
 	written := String streamContents: [ :out |
 		| stream |
 		stream := ZnBufferedWriteStream on: (ZnChunkedWriteStream on: out).

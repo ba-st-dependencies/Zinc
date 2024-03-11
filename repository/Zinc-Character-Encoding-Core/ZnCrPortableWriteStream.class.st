@@ -34,7 +34,7 @@ ZnCrPortableWriteStream >> initialize [
 { #category : 'accessing' }
 ZnCrPortableWriteStream >> newLine [
 	previous := nil.
-	stream nextPutAll: OSPlatform current lineEnding
+	stream nextPutAll: LanguagePlatform current os lineEnding
 ]
 
 { #category : 'accessing' }

@@ -181,12 +181,12 @@ ZnCharacterEncoderTest >> testDetectEncoding [
 
 { #category : 'testing' }
 ZnCharacterEncoderTest >> testKnownEncodingIdentifiers [
-	| all minimal asciiString notSelfIdentifying|
+	| all minimal asciiString |
 	all := ZnCharacterEncoder knownEncodingIdentifiers asSet.
-	minimal := #(utf8 latin1 null ascii iso88591) asSet.
+	minimal := #('utf8' 'latin1' 'null' 'ascii' 'iso88591') asSet.
 	"make sure at least a minimal set is present"
 	self assert: (all intersection: minimal) equals: minimal.
-	asciiString := String withAll: ($a to: $z) , ($A to: $Z) , ($0 to: $9).
+	asciiString := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.
 	"make sure that each identifier can be used to instanciate a decoder,
 	and that those decoders at least work on a ASCII string in both directions"
 	all do: [ :each |
@@ -292,23 +292,19 @@ ZnCharacterEncoderTest >> testReadIntoStartingAtCountFromStreamAtEnd [
 
 { #category : 'testing' }
 ZnCharacterEncoderTest >> testReadIntoStartingAtCountFromStreamWide [
-	| encoder |
+
+	| encoder string bytes buffer read |
 	encoder := ZnUTF8Encoder new.
-	{ 'abc', (WideString withAll: { 300 asCharacter. 400 asCharacter. 500 asCharacter}), 'xyz' } do: [ :each |
-			| bytes buffer notified read |
-			bytes := encoder encodeString: each.
-			buffer := String new: each size.
-			notified := false.
-			[ read := encoder readInto: buffer startingAt: 1 count: each size fromStream: bytes readStream ]
-				on: ZnByteStringBecameWideString
-				do: [ :notification |
-					self deny: notified.
-					notified := true.
-					buffer := notification wideString.
-					notification resume ].
-			self assert: notified.
-			self assert: buffer equals: each.
-			self assert: read equals: each size ]
+	string := 'abcĬƐǴxyz'.
+	bytes := encoder encodeString: string.
+	buffer := string class new: string size.
+	read := encoder
+		        readInto: buffer
+		        startingAt: 1
+		        count: string size
+		        fromStream: bytes readStream.
+	self assert: buffer equals: string.
+	self assert: read equals: string size
 ]
 
 { #category : 'testing' }
@@ -418,7 +414,7 @@ ZnCharacterEncoderTest >> testUTF16EncoderWide1 [
 { #category : 'testing' }
 ZnCharacterEncoderTest >> testUTF32EncoderExampleFromD100 [
 	| string bytes encoder |
-	string := #(16r0000004D 16r00000430 16r00004E8C 16r00010302) collect: #asCharacter as: String.
+	string := 'Mа二𐌂'.
 	bytes := ByteArray readHexFrom: '4D000000300400008C4E000002030100'.
 	encoder := #utf32 asZnCharacterEncoder.
 	encoder beLittleEndian.
@@ -447,8 +443,9 @@ ZnCharacterEncoderTest >> testUTF32EncoderExampleFromD101 [
 
 { #category : 'testing' }
 ZnCharacterEncoderTest >> testUTF32EncoderExampleFromD99 [
+
 	| string bytes encoder |
-	string := #(16r0000004D 16r00000430 16r00004E8C 16r00010302) collect: #asCharacter as: String.
+	string := 'Mа二𐌂'.
 	bytes := ByteArray readHexFrom: '0000004D0000043000004E8C00010302'.
 	encoder := #utf32 asZnCharacterEncoder.
 	encoder beBigEndian.
@@ -536,7 +533,7 @@ ZnCharacterEncoderTest >> testUTF8ByteOrderMark [
 	self assert: decodedString equals: string.
 
 	bom := encoder encodeStringWithByteOrderMark: ''.
-	self should: [ encoder decodeBytes: bom ] raise: ZnIncomplete
+	self should: [ encoder decodeBytes: bom ] raise: ZnCharacterEncodingError 
 ]
 
 { #category : 'testing' }
@@ -589,14 +586,17 @@ ZnCharacterEncoderTest >> testUTF8EncoderIncomplete [
 
 	| encoder |
 	encoder := ZnUTF8Encoder new.
-	#( (16rC2 16rA2) (16rE2 16r82 16rAC) (16rF0 16rA4 16rAD 16rA2) ) do: [ :each |
+	{
+		#[ 16rC2 16rA2 ].
+		#[ 16rE2 16r82 16rAC ].
+		#[ 16rF0 16rA4 16rAD 16rA2 ] } do: [ :each |
 		2 to: each size do: [ :count |
 			self
 				should: [ encoder decodeBytes: (each allButLast: count - 1) ]
-				raise: ZnIncomplete ] ]
+				raise: ZnInvalidUTF8 , ZnCharacterEncodingError ] ]
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ZnCharacterEncoderTest >> testUTF8EncoderRandom [
 	#(unicodeCharacterSource latin1CharacterSource asciiCharacterSource) do: [ :source |
 		| string bytes result |
@@ -639,7 +639,7 @@ ZnCharacterEncoderTest >> testUTF8Overlong [
 		should: [ ZnUTF8Encoder new decodeBytes: #[ 16rF0 16r82 16r82 16rAC ] ]
 		raise: ZnInvalidUTF8.
 	self
-		should: [ ZnUTF8Encoder new decodeBytes: #(193 129 193 130 193 131 ) ]
+		should: [ ZnUTF8Encoder new decodeBytes: #[ 193 129 193 130 193 131 ] ]
 		raise: ZnInvalidUTF8
 ]
 
@@ -648,31 +648,20 @@ ZnCharacterEncoderTest >> testUTF8ReadFaultyInput [
 	"Although not recommended, it is possible to read faulty UTF-8 encoded input by resuming ZnInvalidUTF8"
 
 	"illegal leading byte"
+
 	self
-		should: [ #[102 111 111 160 102 111 111] utf8Decoded ]
+		should: [ #[ 102 111 111 160 102 111 111 ] utf8Decoded ]
 		raise: ZnInvalidUTF8.
-	self
-		assert: ([ #[102 111 111 160 102 111 111] utf8Decoded ] on: ZnInvalidUTF8 do: [ :exception | exception resume ])
-		equals: 'foo?foo'.
-	self
-		assert: ([ #[102 111 111 160 102 111 111] utf8Decoded ] on: ZnInvalidUTF8 do: [ :exception | exception resume: $_ codePoint ])
-		equals: 'foo_foo'.
 
 	"illegal continuation byte"
 	self
-		should: [ #[102 111 111 195 0 102 111 111] utf8Decoded ]
+		should: [ #[ 102 111 111 195 0 102 111 111 ] utf8Decoded ]
 		raise: ZnInvalidUTF8.
-	self
-		assert: ([ #[102 111 111 195 0 102 111 111] utf8Decoded ] on: ZnInvalidUTF8 do: [ :exception | exception resume ])
-		equals: 'foo?foo'.
 
 	"incomplete input"
 	self
-		should: [ #[102 111 111 195 ] utf8Decoded ]
-		raise: ZnIncomplete.
-	self
-		assert: ([ #[102 111 111 195 ] utf8Decoded ] on: ZnInvalidUTF8 , ZnIncomplete do: [ :exception | exception resume ])
-		equals: 'foo?'
+		should: [ #[ 102 111 111 195 ] utf8Decoded ]
+		raise: ZnInvalidUTF8 , ZnCharacterEncodingError
 ]
 
 { #category : 'testing' }

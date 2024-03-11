@@ -25,7 +25,7 @@ ZnNullEncoder class >> handlesEncoding: string [
 
 { #category : 'accessing' }
 ZnNullEncoder class >> knownEncodingIdentifiers [
-	^ #( null )
+	^ #( 'null' )
 ]
 
 { #category : 'instance creation' }

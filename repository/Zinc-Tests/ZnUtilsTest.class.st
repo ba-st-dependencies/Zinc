@@ -8,7 +8,8 @@ Class {
 { #category : 'testing' }
 ZnUtilsTest >> testBase64 [
 	| short long encoded legalCharactes |
-	legalCharactes := (String withAll: ($A to: $Z) , ($a to: $z) , ($0 to: $9)) , '='.
+	legalCharactes := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789='.
+>>>>>>> release-candidate
 	short := String withAll: ((1 to: 16) collect: [ :each | 'abc' atRandom ]).
 	encoded := ZnUtils encodeBase64: short.
 	self assert: (ZnUtils decodeBase64: encoded) equals: short.
@@ -32,28 +33,38 @@ ZnUtilsTest >> testCapitalizeString [
 { #category : 'testing' }
 ZnUtilsTest >> testDefaultJSONReader [
 	"System should provide a JSON parser"
+
 	| reader expectedParserClass |
 	reader := ZnUtils defaultJSONReader.
-	expectedParserClass := self class environment at: #NeoJSONObject ifAbsent: [
-		          self class environment at: #STONJSON ifAbsent:[nil]].
+	expectedParserClass := LanguagePlatform current
+		                       globalNamed: #NeoJSONObject
+		                       ifAbsent: [
+		                       LanguagePlatform current
+			                       globalNamed: #STONJSON
+			                       ifAbsent: [ nil ] ].
 
-	self assert: reader isNotNil.
+	self assert: reader notNil.
 	self assert: reader equals: expectedParserClass
 ]
 
 { #category : 'testing' }
 ZnUtilsTest >> testDefaultJSONWriter [
 	"System should provide a JSON parser"
+
 	| writer expectedParserClass |
 	writer := ZnUtils defaultJSONWriter.
-	expectedParserClass := self class environment at: #NeoJSONWriter ifAbsent: [
-		          self class environment at: #STONJSON ifAbsent:[nil]].
+	expectedParserClass := LanguagePlatform current
+		                       globalNamed: #NeoJSONWriter
+		                       ifAbsent: [
+		                       LanguagePlatform current
+			                       globalNamed: #STONJSON
+			                       ifAbsent: [ nil ] ].
 
-	self assert: writer isNotNil.
+	self assert: writer notNil.
 	self assert: writer equals: expectedParserClass
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ZnUtilsTest >> testHttpDate [
 	| timestamp string |
 	timestamp := DateAndTime

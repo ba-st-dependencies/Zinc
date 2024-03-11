@@ -114,14 +114,6 @@ ZnUrl class >> fromString: string defaultScheme: defaultScheme [
 ]
 
 { #category : 'accessing' }
-ZnUrl class >> image [
-	"Return a File URL refering to the file path of the current image file.
-	This is useful as a context to resolve relative URLs, see #withRelativeReference:"
-
-	^ SmalltalkImage current imagePath asPath asZnUrl
-]
-
-{ #category : 'accessing' }
 ZnUrl class >> schemesNotUsingDoubleSlash [
 	"Most URL schemes use a double slash, as in http://
 	but some don't, return a list of those"
@@ -227,6 +219,12 @@ ZnUrl >> asRelativeUrl [
 		host: nil;
 		port: nil;
 		yourself
+]
+
+{ #category : 'converting' }
+ZnUrl >> asString [
+
+	^ self printString
 ]
 
 { #category : 'converting' }
@@ -363,12 +361,12 @@ ZnUrl >> fragment: string [
 
 { #category : 'testing' }
 ZnUrl >> hasFragment [
-	^ fragment isNotNil
+	^ fragment notNil
 ]
 
 { #category : 'testing' }
 ZnUrl >> hasHost [
-	^ host isNotNil
+	^ host notNil
 ]
 
 { #category : 'testing' }

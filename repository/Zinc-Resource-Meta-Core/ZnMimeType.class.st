@@ -65,7 +65,7 @@ ZnMimeType class >> applicationJavascript [
 
 { #category : 'convenience' }
 ZnMimeType class >> applicationJson [
-	^ self main: 'application' sub: 'json'
+  ^ self main: 'application' sub: 'json'
 ]
 
 { #category : 'convenience' }
@@ -164,7 +164,7 @@ ZnMimeType class >> imagePng [
 
 { #category : 'convenience' }
 ZnMimeType class >> imageSvg [
-	^ self main: 'image' sub: 'svg+xml'
+		^ self main: 'image' sub: 'svg+xml'
 ]
 
 { #category : 'class initialization' }
@@ -309,6 +309,12 @@ ZnMimeType >> asMIMEType [
 ]
 
 { #category : 'converting' }
+ZnMimeType >> asString [
+
+	^ self printString
+]
+
+{ #category : 'converting' }
 ZnMimeType >> asZnMimeType [
 	^ self
 ]
@@ -330,8 +336,7 @@ ZnMimeType >> clearCharSet [
 
 { #category : 'testing' }
 ZnMimeType >> hasParameters [
-
-	^ parameters isNotNil and: [ parameters isNotEmpty ]
+	^ parameters notNil and: [ parameters isEmpty not ]
 ]
 
 { #category : 'testing' }

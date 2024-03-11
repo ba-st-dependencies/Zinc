@@ -7,12 +7,16 @@ Class {
 
 { #category : 'accessing' }
 ZnMagicCookieJarTest >> cookieString [
-	^ 'PREF=ID=18ae67ce302b6317:TM=1285696140:LM=1285696140:S=hqroFGlRQR1j4Yhy; expires={1}; path=/; domain=.google.com' format: { ZnUtils httpDate: DateAndTime now + 60 days }
+
+	^ 'PREF=ID=18ae67ce302b6317:TM=1285696140:LM=1285696140:S=hqroFGlRQR1j4Yhy; expires=<1p>; path=/; domain=.google.com'
+		  expandMacrosWith: (ZnUtils httpDate: DateAndTime now + 60 days)
 ]
 
 { #category : 'accessing' }
 ZnMagicCookieJarTest >> cookieStringAlt [
-	^'PREFS=ID=18ae67ce302b6317:TM=1285696140:LM=1285696140:S=hqroFGlRQR1j4Yhy; expires={1}; path=/; domain=.pharo-project.org' format: { ZnUtils httpDate: DateAndTime now + 60 days }
+
+	^ 'PREFS=ID=18ae67ce302b6317:TM=1285696140:LM=1285696140:S=hqroFGlRQR1j4Yhy; expires=<1p>; path=/; domain=.pharo-project.org'
+		  expandMacrosWith: (ZnUtils httpDate: DateAndTime now + 60 days)
 ]
 
 { #category : 'testing' }

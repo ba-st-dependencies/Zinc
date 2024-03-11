@@ -104,7 +104,8 @@ ZnSimplifiedByteEncoder class >> iso88591Mapping [
 
 { #category : 'accessing' }
 ZnSimplifiedByteEncoder class >> knownEncodingIdentifiers [
-	^ self byteTextConverters keys
+
+	^ self byteTextConverters keys asArray
 ]
 
 { #category : 'mappings' }
@@ -195,6 +196,16 @@ ZnSimplifiedByteEncoder >> encodedByteCountFor: character [
 { #category : 'encoding - decoding' }
 ZnSimplifiedByteEncoder >> encodedByteCountForCodePoint: character [
 	^ 1
+]
+
+{ #category : 'convenience' }
+ZnSimplifiedByteEncoder >> encodedByteCountForString: string [
+	"Return the exact number of bytes it would take to encode string as a byte array"
+
+	^ string
+		inject: 0
+		into: [ :sum :each |
+			sum + (self encodedByteCountFor: each) ]
 ]
 
 { #category : 'encoding - decoding' }
@@ -293,6 +304,17 @@ ZnSimplifiedByteEncoder >> printOn: stream [
 	strict
 		ifTrue: [ stream nextPutAll: ' strict' ].
 	stream nextPut: $)
+]
+
+{ #category : 'convenience' }
+ZnSimplifiedByteEncoder >> readInto: string startingAt: offset count: requestedCount fromStream: stream [
+	"Read requestedCount characters into string starting at offset,
+	returning the number read, there could be less available when stream is atEnd"
+
+	offset to: offset + requestedCount - 1 do: [ :index |
+		stream atEnd ifTrue: [ ^ index - offset ].
+		string at: index put: (self nextFromStream: stream) ].
+	^ requestedCount
 ]
 
 { #category : 'encoding - decoding' }

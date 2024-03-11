@@ -21,7 +21,7 @@ ZnByteStringBecameWideString class >> convert: byteString [
 	"Convert byteString to a wideString, signalling a resumable error"
 
 	| wideString |
-	wideString := WideString from: byteString.
+	wideString := byteString asUnicodeString.
 	self new
 		byteString: byteString;
 		wideString: wideString;

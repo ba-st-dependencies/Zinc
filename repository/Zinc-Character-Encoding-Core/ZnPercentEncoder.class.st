@@ -135,12 +135,17 @@ ZnPercentEncoder >> errorHexDigitExpected [
 
 { #category : 'private' }
 ZnPercentEncoder >> readHexFrom: stream [
+
 	| first second |
-	(stream atEnd not and: [ (first := stream next digitValue) between: 0 and: 15 ])
-		ifFalse: [ self errorHexDigitExpected ].
-	(stream atEnd not and: [ (second := stream next digitValue) between: 0 and: 15 ])
-		ifFalse: [ self errorHexDigitExpected ].
-	^ (first << 4) + second
+	(stream atEnd not and: [
+		 first := stream next digitValueInRadix: 16.
+		 first notNil and: [ first between: 0 and: 15 ] ]) ifFalse: [
+		self errorHexDigitExpected ].
+	(stream atEnd not and: [
+		 second := stream next digitValueInRadix: 16.
+		 second notNil and: [ second between: 0 and: 15 ] ]) ifFalse: [
+		self errorHexDigitExpected ].
+	^ first << 4 + second
 ]
 
 { #category : 'accessing' }
@@ -160,5 +165,6 @@ ZnPercentEncoder >> safeSet: string [
 
 { #category : 'private' }
 ZnPercentEncoder >> writeHex: integer to: stream [
-	integer printOn: stream base: 16 length: 2 padded: true
+
+	stream nextPutAll: (integer asHexStringWithLength: 2) asUppercase 
 ]

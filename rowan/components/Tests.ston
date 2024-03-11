@@ -1,0 +1,25 @@
+RwSimpleProjectLoadComponentV2 {
+  #name : 'Tests',
+  #condition : 'tests',
+  #projectNames : [ ],
+  #componentNames : [
+    'Deployment'
+  ],
+  #packageNames : [
+    'Zinc-Character-Encoding-Tests',
+    'Zinc-Resource-Meta-Tests',
+    'Zinc-Tests'
+  ],
+  #conditionalPackageMapSpecs : {
+    'gemstone' : {
+      'allusers' : {
+        #packageNameToPlatformPropertiesMap : {
+          'Zinc-Character-Encoding-Tests' : { 'symbolDictName' : 'Zinc' },
+          'Zinc-Tests' : { 'symbolDictName' : 'Zinc' },
+          'Zinc-Resource-Meta-Tests' : { 'symbolDictName' : 'Zinc' }
+        }
+      }
+    }
+  },
+  #comment : 'Test packages for Zinc'
+}

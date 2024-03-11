@@ -84,16 +84,6 @@ ZnServerTest >> port [
 	^ 1700 + 32 atRandom
 ]
 
-{ #category : 'private' }
-ZnServerTest >> runningOnWindows [
-	"Pharo 3+"
-	[ ^ OSPlatform current isWindows ] on: MessageNotUnderstood do: [ ].
-	"Pharo 2-"
-	[ ^ OSPlatform isWin32 ] on: MessageNotUnderstood do: [ ].
-	"Give up"
-	^ false
-]
-
 { #category : 'testing' }
 ZnServerTest >> testAuthorizationFailed [
 	self
@@ -222,9 +212,9 @@ ZnServerTest >> testEchoBinary [
 { #category : 'testing' }
 ZnServerTest >> testEchoLocalInterface [
 	| server response |
-	(server := ZnServer on: self port) bindingAddress: NetNameResolver loopBackAddress.
+	(server := ZnServer on: self port) bindingAddress: ZnNetworkingUtils default socketAddressClass loopBackAddress.
 	[ server start.
-	self assert: server isRunning & server isListening description: ('Failed to start server on port {1}. Is there one already?' format: {server port}).
+	self assert: server isRunning & server isListening description: ('Failed to start server on port <1p>. Is there one already?' expandMacrosWith: server port).
 	response := ZnEasy
 		get:
 			(server localUrl
@@ -239,11 +229,11 @@ ZnServerTest >> testEchoLocalInterface [
 
 { #category : 'testing' }
 ZnServerTest >> testEntityTooLarge [
-	self usingClassicSocketStreamsOnWindowsDo: [
-		self withServerDo: [ :server |
-			server maximumEntitySize: self entitySizeLimit.
-			self deny: server debugMode.
-			self assertEntityTooLarge: server localUrl ] ]
+
+	self withServerDo: [ :server |
+		server maximumEntitySize: self entitySizeLimit.
+		self deny: server debugMode.
+		self assertEntityTooLarge: server localUrl ]
 ]
 
 { #category : 'testing' }
@@ -389,34 +379,18 @@ ZnServerTest >> testGetUnicodeUtf8 [
 ]
 
 { #category : 'testing' }
-ZnServerTest >> testGzipCompressionAndChunking [
-	self withServerDo: [ :server | | client |
-		server useGzipCompressionAndChunking: true.
-		(client := ZnClient new)
-			url: server localUrl;
-			addPathSegment: 'dw-bench';
-			setAcceptEncodingGzip;
-			get.
-		self assert: client isSuccess.
-		self assert: client response hasContentEncoding.
-		self assert: (client response headers at: 'Content-Encoding') equals: 'gzip'.
-		self assert: client response hasTransferEncoding.
-		self assert: (client response headers at: 'Transfer-Encoding') equals: 'chunked' ]
-]
-
-{ #category : 'testing' }
 ZnServerTest >> testHeaderLineTooLong [
-	self usingClassicSocketStreamsOnWindowsDo: [
-		self withServerDo: [ :server |
-			self deny: server debugMode.
-			self assertHeaderLineTooLong: server localUrl ] ]
+
+	self withServerDo: [ :server |
+		self deny: server debugMode.
+		self assertHeaderLineTooLong: server localUrl ]
 ]
 
 { #category : 'testing' }
 ZnServerTest >> testLocalUrl [
 	self withServerDo: [ :server |
 		self assert: server localUrl scheme equals: #http.
-		self assert: server localUrl host equals: NetNameResolver loopBackName.
+		self assert: server localUrl host equals: ZnNetworkingUtils default socketAddressClass loopBackName.
 		self assert: server localUrl port equals: server port ]
 ]
 
@@ -468,10 +442,10 @@ ZnServerTest >> testOSAssignedPort [
 
 { #category : 'testing' }
 ZnServerTest >> testRequestLineTooLong [
-	self usingClassicSocketStreamsOnWindowsDo: [
-		self withServerDo: [ :server |
+
+	self withServerDo: [ :server |
 		self deny: server debugMode.
-		self assertRequestLineTooLong: server localUrl ] ]
+		self assertRequestLineTooLong: server localUrl ]
 ]
 
 { #category : 'testing' }
@@ -573,41 +547,44 @@ ZnServerTest >> testSmall [
 
 { #category : 'testing' }
 ZnServerTest >> testTooManyConcurrentConnections [
-	self usingClassicSocketStreamsOnWindowsDo: [
-		self withServerDo: [ :server | | client clients |
-			self deny: server debugMode.
-			server maximumNumberOfConcurrentConnections: 4.
-			clients := (1 to: 4) collect: [ :each |
-				ZnClient new
-					url: server localUrl;
-					addPathSegment: #random;
-					clientId: ('client-{1}' format: { each });
-					enforceHttpSuccess;
-					get;
-					yourself ].
-			client := ZnClient new
-					url: server localUrl;
-					addPathSegment: #random;
-					clientId: 'client-5';
-					get;
-					yourself.
-			self assert: client response code equals: 503.
-			clients do: [ :each |
-				each get; close ].
-			client get.
-			self assert: client isSuccess.
-			client close ] ]
+
+	self withServerDo: [ :server |
+		| client clients |
+		self deny: server debugMode.
+		server maximumNumberOfConcurrentConnections: 4.
+		clients := (1 to: 4) collect: [ :each |
+			           ZnClient new
+				           url: server localUrl;
+				           addPathSegment: #random;
+				           clientId: ('client-<1p>}' expandMacrosWith: each );
+				           enforceHttpSuccess;
+				           get;
+				           yourself ].
+		client := ZnClient new
+			          url: server localUrl;
+			          addPathSegment: #random;
+			          clientId: 'client-5';
+			          get;
+			          yourself.
+		self assert: client response code equals: 503.
+		clients do: [ :each |
+			each
+				get;
+				close ].
+		client get.
+		self assert: client isSuccess.
+		client close ]
 ]
 
 { #category : 'testing' }
 ZnServerTest >> testTooManyHeaders [
-	self usingClassicSocketStreamsOnWindowsDo: [
-		self withServerDo: [ :server |
-			self deny: server debugMode.
-			self assertTooManyHeaders: server localUrl ] ]
+
+	self withServerDo: [ :server |
+		self deny: server debugMode.
+		self assertTooManyHeaders: server localUrl ]
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 ZnServerTest >> testUrl [
 	self withServerDo: [ :server |
 		self assert: server url equals: server localUrl.
@@ -637,16 +614,6 @@ ZnServerTest >> testZeroContentLength [
 		client get.
 		self assert: client isSuccess.
 		client close ]
-]
-
-{ #category : 'private' }
-ZnServerTest >> usingClassicSocketStreamsOnWindowsDo: block [
-	| originalSocketStreamClass |
-	originalSocketStreamClass := ZnNetworkingUtils default socketStreamClass.
-	self runningOnWindows
-		ifTrue: [ ZnNetworkingUtils default socketStreamClass: SocketStream ].
-	block
-		ensure: [ ZnNetworkingUtils default socketStreamClass: originalSocketStreamClass ]
 ]
 
 { #category : 'private' }

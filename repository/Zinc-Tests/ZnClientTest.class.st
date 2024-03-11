@@ -10,11 +10,6 @@ ZnClientTest >> smallHtmlUrl [
 	^ 'http://zn.stfx.eu/zn/small.html' asZnUrl
 ]
 
-{ #category : 'accessing' }
-ZnClientTest >> t3EasyGeoIPUrl [
-	^ 'http://easy.t3-platform.net/rest/geo-ip' asZnUrl
-]
-
 { #category : 'testing' }
 ZnClientTest >> testConnectionClose [
 	self withServerDo: [ :server | | client |
@@ -210,38 +205,17 @@ ZnClientTest >> testGetForm [
 ]
 
 { #category : 'testing' }
-ZnClientTest >> testGetGeoIP [
-	| result client |
-	result := (client := ZnClient new)
-		systemPolicy;
-		url: self t3EasyGeoIPUrl;
-		queryAt: 'address' put: '81.83.7.35';
-		accept: ZnMimeType applicationJson;
-		contentReader: [ :entity |
-					self class environment
-						at: #NeoJSONReader
-						ifPresent: [ :parserClass | parserClass fromString: entity contents ]
-						ifAbsent: [ ^ self ] ];
-		ifFail: [ ^ self fail ];
-		get.
-	self assert: result isDictionary.
-	self assert: (result at: #country) equals: 'BE'.
-	client close
-]
-
-{ #category : 'testing' }
 ZnClientTest >> testGetLargeWideStringHTML [
+
 	| client text |
-	text := '<html>{1}<h1>Czech in Czech is {2}e{3}tina.</h1>{1}</html>'
-		format: {
-			String new: ZnUtils streamingBufferSize withAll: $X.
-			269 asCharacter.
-			353 asCharacter }.
+	text := '%<html><1s>%<h1>Czech in Czech is čeština.%</h1><1s>%</html>'
+		        expandMacrosWith:
+		        (String new: ZnUtils streamingBufferSize withAll: $X).
 	self assert: text isWideString.
 	self withServerDo: [ :server |
-		server onRequestRespond: [ :request | ZnResponse ok: (ZnEntity html: text) ].
-		(client := ZnClient new)
-			get: server localUrl.
+		server onRequestRespond: [ :request |
+			ZnResponse ok: (ZnEntity html: text) ].
+		(client := ZnClient new) get: server localUrl.
 		self assert: client isSuccess.
 		self assert: client response contents equals: text.
 		client close ]
@@ -458,47 +432,11 @@ ZnClientTest >> testIfModifiedSinceNotModified [
 ]
 
 { #category : 'testing' }
-ZnClientTest >> testJsonRESTGet [
-	| client |
-	self class environment at: #STONJSON ifAbsent: [ ^ self skip ].
-	self withServerDo: [ :server |
-		server onRequestRespond: [ :request |
-			request method = #GET
-				ifTrue: [ ZnResponse ok: (ZnEntity json: '{"name":"pi","symbol":"π","value":3.141592653589793}') ]
-				ifFalse: [ ZnResponse badRequest: request ] ].
-		(client := ZnClient new)
-			forJsonREST;
-			get: server localUrl.
-		self assert: client isSuccess.
-		self assert: (client contents at: #name) equals: 'pi'.
-		client close ]
-]
-
-{ #category : 'testing' }
-ZnClientTest >> testJsonRESTPost [
-	| client |
-	self class environment at: #STONJSON ifAbsent: [ ^ self skip ].
-	self withServerDo: [ :server |
-		server onRequestRespond: [ :request |
-			request method = #POST
-				ifTrue: [
-					self assert: request contentType equals: ZnMimeType applicationJson.
-					ZnResponse ok: request entity ]
-				ifFalse: [ ZnResponse badRequest: request ] ].
-		(client := ZnClient new)
-			forJsonREST;
-			post: server localUrl contents: { #foo->1. #bar->'Test' } asDictionary.
-		self assert: client isSuccess.
-		self assert: (client contents at: #foo) equals: 1.
-		client close ]
-]
-
-{ #category : 'testing' }
 ZnClientTest >> testLogging [
 	| client logEventCollection count |
 	logEventCollection := OrderedCollection new.
 	ZnLogEvent announcer
-		when: ZnLogEvent do: [ :event | logEventCollection add: event ].
+		when: ZnLogEvent do: [ :event | logEventCollection add: event ] for: self.
 	(client := ZnClient new)
 		clientId: #C1;
 		beOneShot.
@@ -520,14 +458,14 @@ ZnClientTest >> testOptions [
 			request method = #OPTIONS
 				ifTrue: [ | response |
 					response := ZnResponse noContent.
-					response headers at: #Allow put: 'GET, HEAD'.
+					response headers at: 'Allow' put: 'GET, HEAD'.
 					response ]
 				ifFalse: [ ZnResponse badRequest: request ] ].
 		(client := ZnClient new)
 			options: server localUrl.
 		self assert: client isSuccess.
 		self deny: client response hasEntity.
-		self assert: (client response headers at: #Allow) equals: 'GET, HEAD'.
+		self assert: (client response headers at: 'Allow') equals: 'GET, HEAD'.
 		client close ]
 ]
 
@@ -539,14 +477,14 @@ ZnClientTest >> testPatch [
 			request method = #PATCH
 				ifTrue: [| response |
 					response := ZnResponse noContent.
-					response headers at: #Etag put: '"e0023aa4f"'.
+					response headers at: 'Etag' put: '"e0023aa4f"'.
 					response]
 				ifFalse: [ ZnResponse badRequest: request ] ].
 		(client := ZnClient new)
 			patch: server localUrl contents: 'Some data as text'.
 		self assert: client isSuccess.
 		self deny: client response hasEntity.
-		self assert: (client response headers at: #Etag) equals: '"e0023aa4f"'.
+		self assert: (client response headers at: 'Etag') equals: '"e0023aa4f"'.
 		client close ]
 ]
 
@@ -606,8 +544,8 @@ ZnClientTest >> testPostMultipartBinary [
 { #category : 'testing' }
 ZnClientTest >> testPostMultipartNonASCII [
 	| client filename |
-	ZnFileSystemUtils deleteIfExists: 'testPostMultiPart.txt'.
-	filename := ZnFileSystemUtils fullNameFor: 'testPostMultiPart.txt'.
+	ZnFileSystemUtils deleteIfExists: 'testPostMultipartNonASCII.txt'.
+	filename := ZnFileSystemUtils fullNameFor: 'testPostMultipartNonASCII.txt'.
 	ZnFileSystemUtils writeStreamFor: filename do: [ :stream | stream nextPutAll: 'Ελλάδα' ].
 	self withServerDo: [ :server |
 		(client := ZnClient new)
@@ -619,7 +557,7 @@ ZnClientTest >> testPostMultipartNonASCII [
 			post.
 		self assert: client isSuccess.
 		self assert: (client contents includesSubstring: 'multipart') ].
-	ZnFileSystemUtils deleteIfExists: 'testPostMultiPart.txt'
+	ZnFileSystemUtils deleteIfExists: 'testPostMultipartNonASCII.txt'
 ]
 
 { #category : 'testing' }

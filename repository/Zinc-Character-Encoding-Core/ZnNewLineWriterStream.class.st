@@ -67,7 +67,7 @@ ZnNewLineWriterStream >> forLf [
 { #category : 'accessing' }
 ZnNewLineWriterStream >> forPlatformLineEnding [
 
-	lineEnding := OSPlatform current lineEnding
+	lineEnding := LanguagePlatform current os lineEnding
 ]
 
 { #category : 'initialization' }
@@ -96,6 +96,12 @@ ZnNewLineWriterStream >> nextPut: aCharacter [
 		ifFalse:
 			[ stream nextPut: aCharacter ] ].
 	previous := aCharacter
+]
+
+{ #category : 'accessing' }
+ZnNewLineWriterStream >> nextPutAll: aString [
+	
+	aString do: [ :character | self nextPut: character ]
 ]
 
 { #category : 'accessing' }

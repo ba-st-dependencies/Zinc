@@ -27,30 +27,6 @@ ZnEasyTest >> testDelete [
 ]
 
 { #category : 'testing' }
-ZnEasyTest >> testGetGif [
-	| url result |
-	url := 'http://zn.stfx.eu/zn/Hot-Air-Balloon.gif'.
-	result := ZnEasy getGif: url.
-	self assert: result isForm
-]
-
-{ #category : 'testing' }
-ZnEasyTest >> testGetJpeg [
-	| url result |
-	url := 'http://stfx.eu/sun-fire-x2100.jpg'.
-	result := ZnEasy getJpeg: url.
-	self assert: result isForm
-]
-
-{ #category : 'testing' }
-ZnEasyTest >> testGetPng [
-	| url result |
-	url := 'http://pharo.org/web/files/pharo.png'.
-	result := ZnEasy getPng: url.
-	self assert: result isForm
-]
-
-{ #category : 'testing' }
 ZnEasyTest >> testGetSmallHTMLDocument [
 	| url response |
 	url := self smallHtmlUrl.

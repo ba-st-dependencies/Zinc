@@ -16,6 +16,14 @@ Class {
 }
 
 { #category : 'accessing' }
-ZnDefaultCharacterEncoder >> default [
+ZnDefaultCharacterEncoder class >> default [
+
 	^ ZnCharacterEncoder utf8
 ]
+
+{ #category : 'accessing' }
+ZnDefaultCharacterEncoder >> default [
+
+	^ self class default
+]
+

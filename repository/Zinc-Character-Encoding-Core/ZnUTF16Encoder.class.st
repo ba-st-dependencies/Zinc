@@ -79,6 +79,11 @@ ZnUTF16Encoder >> errorIncomplete [
 	self error: 'Incomplete utf-16 encoding'
 ]
 
+{ #category : 'accessing' }
+ZnUTF16Encoder >> identifier [
+	^ #utf16
+]
+
 { #category : 'testing' }
 ZnUTF16Encoder >> isFixedLength [
 	"Return true when I am a fixed length encoding"

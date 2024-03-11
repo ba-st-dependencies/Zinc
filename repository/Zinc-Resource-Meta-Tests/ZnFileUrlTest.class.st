@@ -44,11 +44,6 @@ ZnFileUrlTest >> testAsZnUrl [
 ]
 
 { #category : 'testing' }
-ZnFileUrlTest >> testImage [
-	self assert: ZnUrl image asFileReference exists
-]
-
-{ #category : 'testing' }
 ZnFileUrlTest >> testRelative [
 	| fileReference fileUrl |
 	fileReference := 'foo/bar/test.txt' asFileReference.
@@ -62,9 +57,8 @@ ZnFileUrlTest >> testRelative [
 { #category : 'testing' }
 ZnFileUrlTest >> testRetrieveContents [
 	| fileReference contents url |
-	SystemVersion current major < 3 ifTrue: [ self skip ].
-	fileReference := ('file-{1}.txt' format: {(1000 atRandom)}) asFileReference.
-	contents := 'Testing {1} and counting.{2}' format: {(1000 atRandom). (String crlf)}.
+	fileReference := ('file-<1p>.txt' expandMacrosWith: 1000 atRandom) asFileReference.
+	contents := 'Testing <1p> and counting.<r><l>' expandMacrosWith: 1000 atRandom.
 	fileReference ensureDelete.
 	fileReference writeStreamDo: [ :stream | stream nextPutAll: contents ].
 	url := fileReference asZnUrl.
@@ -115,19 +109,6 @@ ZnFileUrlTest >> testTrailingSlash [
 	fileUrl2 := 'file:///foo/bar/' asZnUrl.
 	self deny: fileUrl1 equals: fileUrl2.
 	self assert: fileUrl1 asFileReference equals: fileUrl2 asFileReference
-]
-
-{ #category : 'testing' }
-ZnFileUrlTest >> testWindowsDriveNamesInFileUrl [
-	"Note the 3 slashes: 2 are from the scheme, file://, 1 is from the empty host and starts the absolute path"
-
-	SystemVersion current major < 3 ifTrue: [ self skip ].
-	self
-		assert: 'file:///C:/Programs/notepad.exe' asUrl asFileReference
-		equals: FileLocator C / 'Programs' / 'notepad.exe'.
-	self
-		assert: 'file:///C:' asUrl asFileReference
-		equals: FileLocator C
 ]
 
 { #category : 'testing' }

@@ -24,7 +24,7 @@ ZnNewLineWriterStreamTest >> testNextPut [
 
 	| expectedString stream crStream |
 
-	expectedString := 'a', OSPlatform current lineEnding, 'b'.
+	expectedString := 'a', LanguagePlatform current os lineEnding, 'b'.
 	{ String cr.
 		String lf.
 		String crlf. } do: [ :lineEnd |
