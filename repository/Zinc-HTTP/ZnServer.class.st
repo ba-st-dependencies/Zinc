@@ -436,6 +436,24 @@ ZnServer >> scheme [
 ]
 
 { #category : #accessing }
+ZnServer >> serverId [
+	"Return my serverId.
+	This is a short identification string used in my name and while logging.
+	The default is nil, meaning there is no serverId."
+
+	^ self optionAt: #serverId ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+ZnServer >> serverId: object [
+	"Set my serverId.
+	This is a short identification string used in my name and while logging.
+	The default is nil, meaning there is no serverId."
+
+	self optionAt: #serverId put: object
+]
+
+{ #category : #accessing }
 ZnServer >> serverSocket [
 	"Return the server socket that I am using.
 	Will be nil when I am not running"

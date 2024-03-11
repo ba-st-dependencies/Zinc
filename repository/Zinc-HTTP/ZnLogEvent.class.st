@@ -12,6 +12,7 @@ Class {
 	#superclass : #Announcement,
 	#instVars : [
 		'timestamp',
+		'processId',
 		'id'
 	],
 	#classVars : [
@@ -103,6 +104,17 @@ ZnLogEvent >> printOn: stream [
 	stream space.
 	id \\ 1000 printStringLength: 3 padded: true.
 	self printContentsOn: stream
+]
+
+{ #category : #accessing }
+ZnLogEvent >> processId [
+	^ processId
+]
+
+
+{ #category : #accessing }
+ZnLogEvent >> processId: anObject [
+	processId := anObject
 ]
 
 { #category : #accessing }
