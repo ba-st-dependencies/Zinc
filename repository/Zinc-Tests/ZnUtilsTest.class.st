@@ -9,7 +9,6 @@ Class {
 ZnUtilsTest >> testBase64 [
 	| short long encoded legalCharactes |
 	legalCharactes := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789='.
->>>>>>> release-candidate
 	short := String withAll: ((1 to: 16) collect: [ :each | 'abc' atRandom ]).
 	encoded := ZnUtils encodeBase64: short.
 	self assert: (ZnUtils decodeBase64: encoded) equals: short.
