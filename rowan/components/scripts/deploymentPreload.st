@@ -79,6 +79,10 @@ compileMethod:
       stream nextPutAll: (Character codePoint: codePoint) asString encodeAsUTF8]'
 dictionaries: GsCurrentSession currentSession symbolList
  category: 'encoding - decoding';
+ compileMethod: 'identifier
+	^ ''utf8'''
+ dictionaries: GsCurrentSession currentSession symbolList
+ category: 'accessing';
  compileMethod:
  'nextCodePointFromStream: stream
 	"Read and return the next integer code point from stream"

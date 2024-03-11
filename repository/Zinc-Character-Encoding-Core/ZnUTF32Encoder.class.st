@@ -60,11 +60,6 @@ ZnUTF32Encoder >> errorIncomplete [
 	self error: 'Incomplete utf-32 encoding'
 ]
 
-{ #category : 'accessing' }
-ZnUTF32Encoder >> identifier [
-	^ 'utf32'
-]
-
 { #category : 'encoding - decoding' }
 ZnUTF32Encoder >> nextCodePointFromStream: stream [
 	"Read and return the next integer code point from stream"
