@@ -497,7 +497,7 @@ ZnUrl >> isRelative [
 { #category : 'private' }
 ZnUrl >> isSchemeNotUsingDoubleSlash: schemeString [
 	^ self class schemesNotUsingDoubleSlash , self class schemesOptionallyNotUsingDoubleSlash
-		includes: schemeString asLowercase
+		includes: schemeString asLowercase asSymbol
 ]
 
 { #category : 'testing' }
