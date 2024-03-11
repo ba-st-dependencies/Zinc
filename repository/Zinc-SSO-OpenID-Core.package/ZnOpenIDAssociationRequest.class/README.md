@@ -1,1 +1,0 @@
-A ZnOpenIDAssociationRequest represents a Association Session Request message. This message is sent by the Relying Party to an OP Endpoint

@@ -1,3 +1,0 @@
-testing
-hasContentLength
-	^ contentLength isNotNil

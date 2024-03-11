@@ -1,4 +1,0 @@
-accessing
-atEnd
-
-	^stream atEnd

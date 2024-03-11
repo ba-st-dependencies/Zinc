@@ -1,4 +1,0 @@
-accessing
-tokenEndpoint
-
-	^discoveryDocument tokenEndpoint

@@ -1,3 +1,0 @@
-accessing
-distinctor
-	^ distinctor

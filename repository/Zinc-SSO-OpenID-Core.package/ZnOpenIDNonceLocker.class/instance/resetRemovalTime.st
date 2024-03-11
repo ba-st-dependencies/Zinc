@@ -1,3 +1,0 @@
-actions
-resetRemovalTime
-	lastRemovalRun := nil.

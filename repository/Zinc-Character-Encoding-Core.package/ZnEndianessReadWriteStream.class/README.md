@@ -1,1 +1,0 @@
-I am a stream decorator that knows how to read and write little endian numbers from my underlying stream.

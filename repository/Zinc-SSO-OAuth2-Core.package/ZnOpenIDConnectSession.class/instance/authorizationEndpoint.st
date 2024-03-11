@@ -1,4 +1,0 @@
-accessing
-authorizationEndpoint
-
-	^discoveryDocument authorizationEndpoint

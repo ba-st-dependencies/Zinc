@@ -1,3 +1,0 @@
-private
-currentTime
-	^ DateAndTime now

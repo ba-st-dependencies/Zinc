@@ -1,3 +1,0 @@
-accessing
-endianness
-	^ #'N/A'

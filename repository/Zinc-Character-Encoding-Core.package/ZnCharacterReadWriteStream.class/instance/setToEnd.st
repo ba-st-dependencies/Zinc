@@ -1,4 +1,0 @@
-accessing
-setToEnd
-
-	writeStream setToEnd
