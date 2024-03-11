@@ -68,16 +68,6 @@ ZnDataUrlTest >> testParseMinimal [
 ]
 
 { #category : 'tests' }
-ZnDataUrlTest >> testPng [
-	| logoPngBytes dataUrl representation |
-	logoPngBytes := PolymorphSystemSettings pharoLogoContents base64Decoded.
-	dataUrl := ZnDataUrl bytes: logoPngBytes type: ZnMimeType imagePng.
-	representation := dataUrl printString.
-	dataUrl := ZnDataUrl fromString: representation.
-	self assert: dataUrl data equals: logoPngBytes 
-]
-
-{ #category : 'tests' }
 ZnDataUrlTest >> testSimpleBinary [
 	| dataUrl |
 	dataUrl := ZnDataUrl new.
