@@ -409,7 +409,7 @@ ZnServerTest >> testLogging [
 			self assert: client isSuccess.
 			client get: (server localUrl addPathSegment: #error).
 			self deny: client isSuccess.
-			server delegate map: #redirect to: [ :request | ZnResponse redirect: #welcome ].
+			server delegate map: 'redirect' to: [ :request | ZnResponse redirect: #welcome ].
 			client get: (server localUrl addPathSegment: #redirect).
 			self assert: client isSuccess.		
 			client close ] ].
