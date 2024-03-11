@@ -72,8 +72,8 @@ ZnPercentEncoder >> decode: stringStream to: byteStream [
 					char == $%
 						ifTrue: [ byteStream nextPut: (self readHexFrom: stringStream) ]
 						ifFalse: [
-							char charCode < 128
-								ifTrue: [ byteStream nextPut: char charCode ]
+							char codePoint < 128
+								ifTrue: [ byteStream nextPut: char codePoint ]
 								ifFalse: [ self errorAsciiCharacterExpected ] ] ] ]
 ]
 
