@@ -81,7 +81,7 @@ ZnUTF16Encoder >> errorIncomplete [
 
 { #category : 'accessing' }
 ZnUTF16Encoder >> identifier [
-	^ #utf16
+	^ 'utf16'
 ]
 
 { #category : 'testing' }

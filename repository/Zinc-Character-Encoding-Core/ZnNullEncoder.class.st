@@ -92,7 +92,7 @@ ZnNullEncoder >> ensureAtBeginOfCodePointOnStream: stream [
 
 { #category : 'accessing' }
 ZnNullEncoder >> identifier [
-	^ #null
+	^ 'null'
 ]
 
 { #category : 'convenience' }

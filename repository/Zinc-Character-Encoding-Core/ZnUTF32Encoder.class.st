@@ -62,7 +62,7 @@ ZnUTF32Encoder >> errorIncomplete [
 
 { #category : 'accessing' }
 ZnUTF32Encoder >> identifier [
-	^ #utf32
+	^ 'utf32'
 ]
 
 { #category : 'encoding - decoding' }
