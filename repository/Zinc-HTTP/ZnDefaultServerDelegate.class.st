@@ -417,7 +417,7 @@ ZnDefaultServerDelegate >> welcome: request [
 
 { #category : #private }
 ZnDefaultServerDelegate >> welcomePageCss [
-	^ Character space join:
+	^ ' ' join:
 	'body { color: black; background: white; width: 900px; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px }
 p { width: 600px; padding: 0 20px 10px 20px }
 ul, ol { width: 600px; padding: 0 5px 5px 30px }

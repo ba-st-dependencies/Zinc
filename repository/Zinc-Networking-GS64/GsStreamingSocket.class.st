@@ -72,6 +72,12 @@ GsStreamingSocket class >> standardTimeout [
 	^ 0
 ]
 
+{ #category : 'accessing' }
+GsStreamingSocket >> address [
+
+	^ self nativeSocket address
+]
+
 { #category : 'connection' }
 GsStreamingSocket >> close [
 	"^self
