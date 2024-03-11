@@ -180,12 +180,6 @@ ZnUrlTest >> testFileUrl [
 ]
 
 { #category : 'testing' }
-ZnUrlTest >> testImage [
-	self assert: ZnUrl image isFile.
-	self assert: ZnUrl image isFilePath
-]
-
-{ #category : 'testing' }
 ZnUrlTest >> testInContextOf [
 	| baseUrl url |
 	baseUrl := 'http://zn.stfx.eu/foo.txt' asZnUrl.

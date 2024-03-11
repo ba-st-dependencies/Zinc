@@ -753,7 +753,7 @@ ZnByteEncoder class >> parseUnicodeOrgSpec: url [
 	url asZnUrl retrieveContents linesDo: [ :each |
 		(each isEmpty or: [ each beginsWith: '#' ])
 			ifFalse: [ | tokens hexReader |
-				hexReader := [ :string | Integer readFrom: (string readStream skip: 2; yourself) base: 16 ].
+				hexReader := [ :string | Integer fromHexString: (string withoutFirst: 2) ].
 				tokens := each findTokens: String tab.
 				(tokens size < 3 or: [ tokens last = '<control>' or: [ tokens last = '#UNDEFINED' ] ]) ifFalse: [
 					mapping

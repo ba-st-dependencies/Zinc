@@ -345,7 +345,7 @@ ZnClientTest >> testGetStreamingConnectionClose [
 { #category : 'testing' }
 ZnClientTest >> testGetWideStringHTML [
 	| client text |
-	text := '<html><h1>Czech is in Czech {1}e{2}tina.</h1></html>' format: { 269 asCharacter. 353 asCharacter}.
+	text := '<html><h1>Czech is in Czech čeština.</h1></html>'.
 	self assert: text isWideString.
 	self withServerDo: [ :server |
 		server onRequestRespond: [ :request | ZnResponse ok: (ZnEntity html: text) ].

@@ -703,7 +703,7 @@ ZnUrl >> port: integer [
 ZnUrl >> portIfAbsent: valuable [
 	^ self hasPort
 		ifTrue: [ self port ]
-		ifFalse: valuable
+		ifFalse: [ valuable value ]
 ]
 
 { #category : 'accessing' }

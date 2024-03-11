@@ -36,7 +36,7 @@ ZnUTFEncoder >> decodeBytes: bytes [
 			(codePoint > 255 and: [ stream originalContents isWideString not ])
 				ifTrue: [ | wideString position |
 					position := stream position.
-					wideString := WideString from: stream originalContents.
+					wideString := stream originalContents asUnicodeString.
 					stream on: wideString; setFrom: position + 1 to: position ].
 			stream nextPut: (Character value: codePoint) ] ]
 ]
