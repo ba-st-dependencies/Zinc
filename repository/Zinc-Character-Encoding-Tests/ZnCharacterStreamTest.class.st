@@ -1,10 +1,11 @@
 Class {
-	#name : #ZnCharacterStreamTest,
-	#superclass : #TestCase,
-	#category : #'Zinc-Character-Encoding-Tests'
+	#name : 'ZnCharacterStreamTest',
+	#superclass : 'TestCase',
+	#category : 'Zinc-Character-Encoding-Tests',
+	#package : 'Zinc-Character-Encoding-Tests'
 }
 
-{ #category : #'test support' }
+{ #category : 'test support' }
 ZnCharacterStreamTest >> assertUpToAll: array [
 	| utf8Stream |
 	utf8Stream := self utf8ReadStreamOn: array first.
@@ -12,7 +13,7 @@ ZnCharacterStreamTest >> assertUpToAll: array [
 	self assert: (utf8Stream upToAll: array second) equals: array third
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ZnCharacterStreamTest >> testNextLine [
 
 	| stream |
@@ -46,7 +47,7 @@ ZnCharacterStreamTest >> testNextLine [
 	self assert: stream nextLine equals: nil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ZnCharacterStreamTest >> testPeek [
 	| string bytes readStream |
 	string := 'élève en Français'.
@@ -60,7 +61,7 @@ ZnCharacterStreamTest >> testPeek [
 	self assert: (readStream next: 'en Français' size) equals: 'en Français'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ZnCharacterStreamTest >> testReadStream [
 	| stream |
 	stream := ZnCharacterReadStream on: 'ABC' asByteArray readStream.
@@ -80,7 +81,7 @@ ZnCharacterStreamTest >> testReadStream [
 	self assert: stream peek isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ZnCharacterStreamTest >> testReadStreamManipulation [
 	#('abc' 'élève' 'français' 'ö-ö') do: [ :string |
 		#(utf8 latin1 utf16 utf32) do: [ :encoding |
@@ -102,7 +103,7 @@ ZnCharacterStreamTest >> testReadStreamManipulation [
 			self assert: stream next equals: string last ] ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ZnCharacterStreamTest >> testSimpleUTF8ReadStream [
 	| string bytes |
 	string := 'élève en Français'.
@@ -112,7 +113,7 @@ ZnCharacterStreamTest >> testSimpleUTF8ReadStream [
 		equals: string
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ZnCharacterStreamTest >> testSimpleUTF8WriteStream [
 	| string bytes stream |
 	string := 'élève en Français'.
@@ -124,7 +125,7 @@ ZnCharacterStreamTest >> testSimpleUTF8WriteStream [
 		equals: bytes
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ZnCharacterStreamTest >> testUTF8ReadStreamBack [
 	| stream |
 	stream := ZnCharacterReadStream on: 'élève' utf8Encoded readStream.
@@ -138,7 +139,7 @@ ZnCharacterStreamTest >> testUTF8ReadStreamBack [
 	self assert: stream upToEnd equals: 'élève'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ZnCharacterStreamTest >> testUTF8ReadStreamPositioning [
 	| bytes stream |
 	bytes := 'élève' utf8Encoded.
@@ -157,10 +158,12 @@ ZnCharacterStreamTest >> testUTF8ReadStreamPositioning [
 	stream position: 5.
 	self assert: stream next equals: $v.
 	stream position: 6.
-	self assert: stream next equals: $e
+	self assert: stream next equals: $e.
+	stream position: 7.
+	self assert: stream atEnd.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ZnCharacterStreamTest >> testUTF8ReadStreamReadInto [
 	| string bytes stream buffer |
 	string := 'élève en Français'.
@@ -179,7 +182,7 @@ ZnCharacterStreamTest >> testUTF8ReadStreamReadInto [
 	self assert: stream atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ZnCharacterStreamTest >> testUpToAll [
 	#(
 		('' '' '')
@@ -223,7 +226,7 @@ ZnCharacterStreamTest >> testUpToAll [
 	) do: [ :array | self assertUpToAll: array ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 ZnCharacterStreamTest >> testUpToAllTwice [
 	| utf8Stream stream |
 	utf8Stream := self utf8ReadStreamOn: 'eißendeße'.
@@ -235,7 +238,7 @@ ZnCharacterStreamTest >> testUpToAllTwice [
 	self assert: (stream upToAll: 'ße') equals: 'nde'
 ]
 
-{ #category : #'test support' }
+{ #category : 'test support' }
 ZnCharacterStreamTest >> utf8ReadStreamOn: string [
 	^ ZnCharacterReadStream
 		on: (ZnUTF8Encoder new encodeString: string) readStream

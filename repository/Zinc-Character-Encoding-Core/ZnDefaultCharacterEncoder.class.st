@@ -9,19 +9,21 @@ ZnDefaultCharacterEncoder
 	during: [ ZnClient new get: 'http://zn.stfx.eu/zn/small.html' ]
 "
 Class {
-	#name : #ZnDefaultCharacterEncoder,
-	#superclass : #DynamicVariable,
-	#category : #'Zinc-Character-Encoding-Core'
+	#name : 'ZnDefaultCharacterEncoder',
+	#superclass : 'DynamicVariable',
+	#category : 'Zinc-Character-Encoding-Core',
+	#package : 'Zinc-Character-Encoding-Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnDefaultCharacterEncoder class >> default [
 
 	^ ZnCharacterEncoder utf8
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnDefaultCharacterEncoder >> default [
 
 	^ self class default
 ]
+

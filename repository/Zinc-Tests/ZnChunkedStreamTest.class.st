@@ -1,10 +1,11 @@
 Class {
-	#name : #ZnChunkedStreamTest,
-	#superclass : #TestCase,
-	#category : #'Zinc-Tests'
+	#name : 'ZnChunkedStreamTest',
+	#superclass : 'TestCase',
+	#category : 'Zinc-Tests',
+	#package : 'Zinc-Tests'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 ZnChunkedStreamTest >> nextPutAll: collection on: stream chunked: size [
 	| written |
 	written := 0.
@@ -17,7 +18,7 @@ ZnChunkedStreamTest >> nextPutAll: collection on: stream chunked: size [
 	stream print: 0; nextPutAll: String crlf; nextPutAll: String crlf
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnChunkedStreamTest >> testBinaryWriteRead [
 	| data written read |
 	data := ByteArray new: 1024 streamContents: [ :out |
@@ -33,7 +34,7 @@ ZnChunkedStreamTest >> testBinaryWriteRead [
 	self assert: read equals: data
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnChunkedStreamTest >> testReading [
 	| data chunked plain |
 	data := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
@@ -43,7 +44,7 @@ ZnChunkedStreamTest >> testReading [
 	self assert: plain equals: data
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnChunkedStreamTest >> testReadingBuffered [
 	| data chunked plain buffer readStream |
 	data := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
@@ -58,7 +59,7 @@ ZnChunkedStreamTest >> testReadingBuffered [
 	self assert: plain equals: data
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnChunkedStreamTest >> testReadingNext [
 	| data chunked plain |
 	data := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
@@ -68,7 +69,7 @@ ZnChunkedStreamTest >> testReadingNext [
 	self assert: plain equals: data
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnChunkedStreamTest >> testReadingNextInto [
 	| data chunked plain |
 	data := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.
@@ -79,7 +80,7 @@ ZnChunkedStreamTest >> testReadingNextInto [
 	self assert: plain equals: data
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnChunkedStreamTest >> testWriting [
 	| chunks result reference |
 	chunks := #( 'ABC' 'DEF' 'GHI' 'JKL' ).
@@ -93,7 +94,7 @@ ZnChunkedStreamTest >> testWriting [
 	self assert: result equals: reference
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnChunkedStreamTest >> testWritingBuffered [
 	| data written read |
 	data := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.

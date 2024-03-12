@@ -1,15 +1,16 @@
 Class {
-	#name : #ZnEasyTest,
-	#superclass : #TestCase,
-	#category : #'Zinc-Tests'
+	#name : 'ZnEasyTest',
+	#superclass : 'TestCase',
+	#category : 'Zinc-Tests',
+	#package : 'Zinc-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnEasyTest >> smallHtmlUrl [
 	^ 'http://zn.stfx.eu/zn/small.html' asZnUrl
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnEasyTest >> testDelete [
 	self
 		withServerDo: [ :server |
@@ -25,7 +26,7 @@ ZnEasyTest >> testDelete [
 			self assert: (response entity string includesSubstring: 'foo') ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnEasyTest >> testGetSmallHTMLDocument [
 	| url response |
 	url := self smallHtmlUrl.
@@ -35,7 +36,7 @@ ZnEasyTest >> testGetSmallHTMLDocument [
 	self assert: (response entity string includesSubstring: 'small')
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnEasyTest >> testHeadSmallHTMLDocument [
 	| url response |
 	url := self smallHtmlUrl.
@@ -45,7 +46,7 @@ ZnEasyTest >> testHeadSmallHTMLDocument [
 	self assert: response hasEntity not
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnEasyTest >> testPost [
 	self
 		withServerDo: [ :server |
@@ -63,7 +64,7 @@ ZnEasyTest >> testPost [
 			self assert: (response entity string includesSubstring: data) ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnEasyTest >> testPostUnicodeUtf8 [
 	self
 		withServerDo: [ :server |
@@ -81,7 +82,7 @@ ZnEasyTest >> testPostUnicodeUtf8 [
 			self assert: (response entity string includesSubstring: data) ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnEasyTest >> testPut [
 	self
 		withServerDo: [ :server |
@@ -99,7 +100,7 @@ ZnEasyTest >> testPut [
 			self assert: (response entity string includesSubstring: data) ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnEasyTest >> testTimeout [
 	self withServerDo: [ : server |
 		self
@@ -110,7 +111,7 @@ ZnEasyTest >> testTimeout [
 			raise: ConnectionTimedOut ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZnEasyTest >> withServerDo: block [
 	ZnServer withOSAssignedPortDo: block
 ]

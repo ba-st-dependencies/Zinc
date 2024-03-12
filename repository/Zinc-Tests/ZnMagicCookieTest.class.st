@@ -1,34 +1,35 @@
 Class {
-	#name : #ZnMagicCookieTest,
-	#superclass : #TestCase,
-	#category : #'Zinc-Tests'
+	#name : 'ZnMagicCookieTest',
+	#superclass : 'TestCase',
+	#category : 'Zinc-Tests',
+	#package : 'Zinc-Tests'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnMagicCookieTest >> cookieString [
 
 	^ 'PREF=ID=18ae67ce302b6317:TM=1285696140:LM=1285696140:S=hqroFGlRQR1j4Yhy; expires=<1p>; path=/; domain=.google.com'
 		  expandMacrosWith: (ZnUtils httpDate: DateAndTime now + 60 days)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnMagicCookieTest >> cookieStringSubpath [
 
 	^ 'PREF=ID=18ae67ce302b6317:TM=1285696140:LM=1285696140:S=hqroFGlRQR1j4Yhy; expires=<1p>; path=/test/; domain=.google.com'
 		  expandMacrosWith: (ZnUtils httpDate: DateAndTime now + 60 days)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnMagicCookieTest >> testFromString [
 	| cookie |
 	cookie := ZnCookie fromString: self cookieString for: 'www.google.com' asZnUrl.
 	self assert: cookie name equals: 'PREF'.
-	self assert: cookie path notNil.
+	self assert: cookie path isNotNil.
 	self assert: cookie domain equals: '.google.com'.
 	self assert: cookie isExpired not
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnMagicCookieTest >> testInDomain [
 	| cookie |
 	cookie := ZnCookie fromString: self cookieString for: 'http://www.google.com' asZnUrl.
@@ -37,7 +38,7 @@ ZnMagicCookieTest >> testInDomain [
 	self assert: ((cookie isInDomain: 'http://pharo-project.org' asZnUrl) not)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnMagicCookieTest >> testInPath [
 	| cookie |
 	cookie := ZnCookie fromString: self cookieStringSubpath for: 'www.google.com' asZnUrl.

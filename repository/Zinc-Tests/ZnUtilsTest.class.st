@@ -1,10 +1,11 @@
 Class {
-	#name : #ZnUtilsTest,
-	#superclass : #TestCase,
-	#category : #'Zinc-Tests'
+	#name : 'ZnUtilsTest',
+	#superclass : 'TestCase',
+	#category : 'Zinc-Tests',
+	#package : 'Zinc-Tests'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testBase64 [
 	| short long encoded legalCharactes |
 	legalCharactes := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789='.
@@ -19,7 +20,7 @@ ZnUtilsTest >> testBase64 [
 	self assert: (encoded allSatisfy: [ :each | legalCharactes includes: each ])
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testCapitalizeString [
 	self assert: (ZnUtils capitalizeString: 'content-type') equals: 'Content-Type'.
 	self assert: (ZnUtils capitalizeString: 'CONTENT-type') equals: 'Content-Type'.
@@ -28,7 +29,7 @@ ZnUtilsTest >> testCapitalizeString [
 	self assert: (ZnUtils capitalizeString: 'Content-MD5') equals: 'Content-Md5'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testDefaultJSONReader [
 	"System should provide a JSON parser"
 
@@ -45,7 +46,7 @@ ZnUtilsTest >> testDefaultJSONReader [
 	self assert: reader equals: expectedParserClass
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testDefaultJSONWriter [
 	"System should provide a JSON parser"
 
@@ -77,7 +78,7 @@ ZnUtilsTest >> testHttpDate [
 	self assert: string equals: 'Wed, 01 Sep 2010 10:10:10 GMT'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testIsCapitalizedString [
 	self assert: (ZnUtils isCapitalizedString: 'Content-Type').
 	self assert: (ZnUtils isCapitalizedString: 'CONTENT-type') not.
@@ -86,7 +87,7 @@ ZnUtilsTest >> testIsCapitalizedString [
 	self assert: (ZnUtils isCapitalizedString: 'Connection')
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testNextPutAll [
 	| data result |
 	data := String new: 64 * 1024 withAll: $A.
@@ -94,7 +95,7 @@ ZnUtilsTest >> testNextPutAll [
 	self assert: result equals: data
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testParseHttpDate [
 	"RFC 822, updated by RFC 1123"
 
@@ -109,7 +110,7 @@ ZnUtilsTest >> testParseHttpDate [
 	self assert: timeStamp offset equals: Duration zero
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testParseHttpDateAlternative1 [
 	"ANSI C's asctime() format"
 
@@ -124,7 +125,7 @@ ZnUtilsTest >> testParseHttpDateAlternative1 [
 	self assert: timeStamp offset equals: Duration zero
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testParseHttpDateDashes [
 	"RFC 850, obsoleted by RFC 1036"
 
@@ -139,7 +140,7 @@ ZnUtilsTest >> testParseHttpDateDashes [
 	self assert: timeStamp offset equals: Duration zero
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testParseHttpDateDashesAlternative1 [
 	"RFC 850, obsoleted by RFC 1036"
 
@@ -154,7 +155,7 @@ ZnUtilsTest >> testParseHttpDateDashesAlternative1 [
 	self assert: timeStamp offset equals: Duration zero
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testReadUpToEndBinary [
 	| data |
 	data := ByteArray streamContents: [ :stream | 1 to: 10000 do: [ :each | stream nextPut: #(1 2 3) atRandom ] ].
@@ -163,7 +164,7 @@ ZnUtilsTest >> testReadUpToEndBinary [
 	self should: [ ZnUtils readUpToEnd: data readStream limit: 9999 ] raise: ZnEntityTooLarge
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testReadUpToEndNonBinary [
 	| data |
 	data := String streamContents: [ :stream | 1 to: 10000 do: [ :each | stream nextPut: 'abc' atRandom ] ].
@@ -172,7 +173,7 @@ ZnUtilsTest >> testReadUpToEndNonBinary [
 	self should: [ ZnUtils readUpToEnd: data readStream limit: 9999 ] raise: ZnEntityTooLarge
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testStreamingBinary [
 	| data in out |
 	data := ByteArray streamContents: [ :stream | 1 to: 10000 do: [ :each | stream nextPut: #(1 2 3) atRandom ] ].
@@ -183,7 +184,7 @@ ZnUtilsTest >> testStreamingBinary [
 	self assert: out contents equals: data
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testStreamingBinaryWithoutSize [
 	| data in out |
 	data := ByteArray streamContents: [ :stream |
@@ -196,7 +197,7 @@ ZnUtilsTest >> testStreamingBinaryWithoutSize [
 	self assert: out contents equals: data
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testStreamingNonBinary [
 	| data in out |
 	data := String streamContents: [ :stream | 1 to: 10000 do: [ :each | stream nextPut: 'abc' atRandom ] ].
@@ -207,7 +208,7 @@ ZnUtilsTest >> testStreamingNonBinary [
 	self assert: out contents equals: data
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnUtilsTest >> testStreamingNonBinaryWithoutSize [
 	| data in out |
 	data := String streamContents: [ :stream |

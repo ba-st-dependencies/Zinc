@@ -12,6 +12,7 @@ Class {
 	#superclass : #Announcement,
 	#instVars : [
 		'timestamp',
+		'processId',
 		'id'
 	],
 	#classVars : [
@@ -82,7 +83,8 @@ ZnLogEvent >> id [
 ZnLogEvent >> initialize [
 	super initialize.
 	timestamp := DateAndTime now.
-	id := self nextId
+	id := self nextId.
+	processId := ZnUtils currentProcessID
 ]
 
 { #category : #accessing }
@@ -103,6 +105,17 @@ ZnLogEvent >> printOn: stream [
 	stream space.
 	id \\ 1000 printStringLength: 3 padded: true.
 	self printContentsOn: stream
+]
+
+{ #category : #accessing }
+ZnLogEvent >> processId [
+	^ processId
+]
+
+
+{ #category : #accessing }
+ZnLogEvent >> processId: anObject [
+	processId := anObject
 ]
 
 { #category : #accessing }

@@ -1,6 +1,17 @@
-Extension { #name : #ZnUrlTest }
+Extension { #name : 'ZnUrlTest' }
 
-{ #category : #'*Zinc-Tests' }
+{ #category : '*Zinc-Tests' }
+ZnUrlTest >> testFragmentWithQuestionMark [
+
+	| urlString url |
+	urlString := 'http://www.example.com/#fragment?with?question?mark'.
+	url := urlString asUrl.
+	self assert: url segments isNil.
+	self deny: url hasQuery.
+	self assert: url asString equals: urlString
+]
+
+{ #category : '*Zinc-Tests' }
 ZnUrlTest >> testRetrieveContents [
 	| numbers |
 	numbers := 'http://zn.stfx.eu/zn/numbers.txt' asZnUrl retrieveContents.
@@ -9,7 +20,7 @@ ZnUrlTest >> testRetrieveContents [
 	self should: [ 'http://zn.stfx.eu/zn/numbers-wrong.txt' asZnUrl retrieveContents ] raise: Error
 ]
 
-{ #category : #'*Zinc-Tests' }
+{ #category : '*Zinc-Tests' }
 ZnUrlTest >> testSaveContentsToFile [
 	| url target result numbers |
 	url := 'http://zn.stfx.eu/zn/numbers.txt' asZnUrl.

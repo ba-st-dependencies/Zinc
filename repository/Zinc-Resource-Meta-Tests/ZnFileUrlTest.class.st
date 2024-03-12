@@ -1,10 +1,11 @@
 Class {
-	#name : #ZnFileUrlTest,
-	#superclass : #TestCase,
-	#category : #'Zinc-Resource-Meta-Tests'
+	#name : 'ZnFileUrlTest',
+	#superclass : 'TestCase',
+	#category : 'Zinc-Resource-Meta-Tests',
+	#package : 'Zinc-Resource-Meta-Tests'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnFileUrlTest >> testAsFileReference [
 	| fileUrl fileReference |
 	fileUrl := 'file:///foo/bar/test.txt' asZnUrl.
@@ -14,7 +15,7 @@ ZnFileUrlTest >> testAsFileReference [
 	self assert: fileReference isAbsolute
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnFileUrlTest >> testAsFileReferenceNoDoubleSlash [
 	| fileUrl fileReference |
 	fileUrl := 'file:/foo/bar/test.txt' asZnUrl.
@@ -25,7 +26,7 @@ ZnFileUrlTest >> testAsFileReferenceNoDoubleSlash [
 	self assert: fileReference isAbsolute
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnFileUrlTest >> testAsZnUrl [
 	| fileReference fileUrl |
 	fileReference := FileLocator root / 'foo' / 'bar' / 'test.txt'.
@@ -42,7 +43,7 @@ ZnFileUrlTest >> testAsZnUrl [
 	self deny: fileUrl hasFragment
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnFileUrlTest >> testRelative [
 	| fileReference fileUrl |
 	fileReference := 'foo/bar/test.txt' asFileReference.
@@ -53,7 +54,7 @@ ZnFileUrlTest >> testRelative [
 	self assert: (fileUrl pathSegments asArray endsWith: fileReference pathSegments asArray)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnFileUrlTest >> testRetrieveContents [
 	| fileReference contents url |
 	fileReference := ('file-<1p>.txt' expandMacrosWith: 1000 atRandom) asFileReference.
@@ -66,7 +67,7 @@ ZnFileUrlTest >> testRetrieveContents [
 	fileReference ensureDelete
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnFileUrlTest >> testRoot [
 	| fileUrl fileReference |
 	fileReference := FileLocator root.
@@ -76,7 +77,7 @@ ZnFileUrlTest >> testRoot [
 	self assert: fileUrl isSlash
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnFileUrlTest >> testSlash [
 	| fileUrl fileReference |
 	fileUrl := 'file:///' asZnUrl.
@@ -86,7 +87,7 @@ ZnFileUrlTest >> testSlash [
 	self assert: fileReference isRoot
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnFileUrlTest >> testSpaces [
 	self
 		assert: 'file:///foo%20bar/test.st' asZnUrl asFileReference
@@ -96,7 +97,7 @@ ZnFileUrlTest >> testSpaces [
 		equals: 'file:///foo%20bar/test.st' asZnUrl
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnFileUrlTest >> testTrailingSlash [
 	| fileReference1 fileReference2 fileUrl1 fileUrl2 |
 	fileReference1 := '/foo/bar' asFileReference.
@@ -110,7 +111,7 @@ ZnFileUrlTest >> testTrailingSlash [
 	self assert: fileUrl1 asFileReference equals: fileUrl2 asFileReference
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 ZnFileUrlTest >> testWrongScheme [
 	self should: [ 'http://zn.stfx.eu/zn/small.html' asZnUrl asFileReference ] raise: AssertionFailure
 ]
