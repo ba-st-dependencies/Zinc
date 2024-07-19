@@ -2,7 +2,7 @@ RwLoadSpecificationV2 {
   #specName: 'NeoJSON',
   #projectName : 'NeoJSON',
   #gitUrl : 'https://github.com/ba-st-dependencies/NeoJSON.git',
-  #revision : 'v18',
+  #revision : 'v19',
   #projectSpecFile : 'rowan/project.ston',
   #componentNames : [
     'Deployment'
