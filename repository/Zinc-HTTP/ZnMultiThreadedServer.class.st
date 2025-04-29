@@ -12,12 +12,14 @@ I try to keep connections alive in each process.
 Part of Zinc HTTP Components.
 "
 Class {
-	#name : #ZnMultiThreadedServer,
-	#superclass : #ZnSingleThreadedServer,
-	#category : #'Zinc-HTTP-Client-Server'
+	#name : 'ZnMultiThreadedServer',
+	#superclass : 'ZnSingleThreadedServer',
+	#category : 'Zinc-HTTP-Client-Server',
+	#package : 'Zinc-HTTP',
+	#tag : 'Client-Server'
 }
 
-{ #category : #'request handling' }
+{ #category : 'request handling' }
 ZnMultiThreadedServer >> augmentResponse: response forRequest: request [
 	"Our handler has produced response for request, manipulate the response before writing it"
 
@@ -26,14 +28,14 @@ ZnMultiThreadedServer >> augmentResponse: response forRequest: request [
 	response setConnectionCloseFor: request
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZnMultiThreadedServer >> closeSocketStream: socketStream [
 	[ socketStream close ]
 		on: Exception
 		do: [ ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZnMultiThreadedServer >> exceptionSet: classNames [
 
 	^ classNames inject: ExceptionSet new into: [ :set :each |
@@ -44,7 +46,7 @@ ZnMultiThreadedServer >> exceptionSet: classNames [
 		  set ]
 ]
 
-{ #category : #'request handling' }
+{ #category : 'request handling' }
 ZnMultiThreadedServer >> executeOneRequestResponseOn: stream [
 	"Execute one HTTP request / response cycle on stream in 3 steps
 	#readRequest: #handleRequest: and #writeResponse:on:
@@ -63,7 +65,7 @@ ZnMultiThreadedServer >> executeOneRequestResponseOn: stream [
 			request wantsConnectionClose or: [ response wantsConnectionClose ] ]
 ]
 
-{ #category : #'request handling' }
+{ #category : 'request handling' }
 ZnMultiThreadedServer >> executeRequestResponseLoopOn: stream [
 	"Execute the HTTP request / response loop on stream one cycle at a time
 	until the other end indicates it wants to stop or times out"
@@ -72,7 +74,7 @@ ZnMultiThreadedServer >> executeRequestResponseLoopOn: stream [
 		[ self executeOneRequestResponseOn: stream ] whileFalse ]
 ]
 
-{ #category : #'request handling' }
+{ #category : 'request handling' }
 ZnMultiThreadedServer >> listenLoop [
 	"We create a listening Socket, then wait for a connection.
 	After each connection we also check that the listening Socket is still valid
@@ -89,7 +91,7 @@ ZnMultiThreadedServer >> listenLoop [
 		ifCurtailed: [ self releaseServerSocket ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZnMultiThreadedServer >> readRequestBadExceptionSet [
 	"Return the set of exceptions which, when they occur while reading a request,
 	are interpreted as equivalent to a request parse error or bad request."
@@ -99,7 +101,7 @@ ZnMultiThreadedServer >> readRequestBadExceptionSet [
 			#(#ZnParseError #ZnCharacterEncodingError #ZnUnknownScheme #ZnPortNotANumber #ZnTooManyDictionaryEntries #ZnEntityTooLarge)
 ]
 
-{ #category : #'request handling' }
+{ #category : 'request handling' }
 ZnMultiThreadedServer >> readRequestSafely: stream timing: timing [
 	"Read request from stream, returning nil when the connection is closed or times out"
 
@@ -116,7 +118,7 @@ ZnMultiThreadedServer >> readRequestSafely: stream timing: timing [
 				nil ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZnMultiThreadedServer >> readRequestTerminationExceptionSet [
 	"Return the set of exceptions which, when they occur while reading a request,
 	are interpreted as equivalent to a timeout or connection close."
@@ -126,7 +128,7 @@ ZnMultiThreadedServer >> readRequestTerminationExceptionSet [
 			#(#ConnectionClosed #ConnectionTimedOut #PrimitiveFailed)
 ]
 
-{ #category : #'request handling' }
+{ #category : 'request handling' }
 ZnMultiThreadedServer >> serveConnectionsOn: listeningSocket [
 	"We wait up to acceptWaitTimeout seconds for an incoming connection.
 	If we get one we wrap it in a SocketStream and #executeRequestResponseLoopOn: on it"
@@ -148,13 +150,13 @@ ZnMultiThreadedServer >> serveConnectionsOn: listeningSocket [
 		at: Processor lowIOPriority
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZnMultiThreadedServer >> workerProcessName [
 	^ String streamContents: [ :stream |
 		stream nextPutAll: self class name; nextPutAll: ' HTTP worker' ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZnMultiThreadedServer >> writeResponseBad: exception on: stream timing: timing [
 	"When we failed to parse a request, write a bad request response before closing."
 
@@ -168,7 +170,7 @@ ZnMultiThreadedServer >> writeResponseBad: exception on: stream timing: timing [
 	self writeResponseSafely: response on: stream timing: timing
 ]
 
-{ #category : #'request handling' }
+{ #category : 'request handling' }
 ZnMultiThreadedServer >> writeResponseSafely: response on: stream timing: timing [
 	"Write response to stream, when the connection is closed or times out we ignore this"
 
@@ -177,7 +179,7 @@ ZnMultiThreadedServer >> writeResponseSafely: response on: stream timing: timing
 		do: [ :exception | self logServerWriteError: exception ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 ZnMultiThreadedServer >> writeResponseTerminationExceptionSet [
 	"Return the set of exceptions which, when they occur while writing a response,
 	are interpreted as equivalent to a timeout or connection close."

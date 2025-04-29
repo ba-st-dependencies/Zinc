@@ -8,12 +8,14 @@ ZnServerSessions are created lazily.
 
 "
 Class {
-	#name : #ZnCurrentServerSession,
-	#superclass : #DynamicVariable,
-	#category : #'Zinc-HTTP-Variables'
+	#name : 'ZnCurrentServerSession',
+	#superclass : 'DynamicVariable',
+	#category : 'Zinc-HTTP-Variables',
+	#package : 'Zinc-HTTP',
+	#tag : 'Variables'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnCurrentServerSession class >> value: anObject [
 
 	Processor activeProcess environmentAt: self put: anObject

@@ -8,8 +8,8 @@ ZnLogEvents are distributed as Announcement through a singleton Announcer that I
 I have a small convenience API to log to the Transcript or open a simple GUI on the emitted log events.
 "
 Class {
-	#name : #ZnLogEvent,
-	#superclass : #Announcement,
+	#name : 'ZnLogEvent',
+	#superclass : 'Announcement',
 	#instVars : [
 		'timestamp',
 		'processId',
@@ -19,27 +19,29 @@ Class {
 		'IdCounter',
 		'LogEventAnnouncer'
 	],
-	#category : #'Zinc-HTTP-Logging'
+	#category : 'Zinc-HTTP-Logging',
+	#package : 'Zinc-HTTP',
+	#tag : 'Logging'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnLogEvent class >> announcer [
 	^ LogEventAnnouncer ifNil: [ LogEventAnnouncer := Announcer new ]
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 ZnLogEvent class >> initialize [
 
 	IdCounter := 0
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 ZnLogEvent class >> logToTranscript [
 	self stopLoggingToTranscript.
 	^ self announcer when: ZnLogEvent do: [ :event | self crTrace: event ] for: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnLogEvent class >> nextId [
 	"This should be thread safe because SmallInteger
 	arithmetic primitives cannot be interrupted"
@@ -47,39 +49,39 @@ ZnLogEvent class >> nextId [
 	^ IdCounter := IdCounter + 1
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 ZnLogEvent class >> open [
 	^ self announcer inspect
 ]
 
-{ #category : #'system startup' }
+{ #category : 'system startup' }
 ZnLogEvent class >> startUp [
 	"Reset the id counter"
 
 	IdCounter := 0
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 ZnLogEvent class >> stopLoggingToTranscript [
 	self announcer unsubscribe: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnLogEvent >> announcer [
 	^ self class announcer
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 ZnLogEvent >> emit [
 	self announcer announce: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnLogEvent >> id [
 	^ id
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 ZnLogEvent >> initialize [
 	super initialize.
 	timestamp := DateAndTime now.
@@ -87,17 +89,17 @@ ZnLogEvent >> initialize [
 	processId := ZnUtils currentProcessID
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnLogEvent >> nextId [
 	^ self class nextId
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ZnLogEvent >> printContentsOn: stream [
 	"Subclasses should implement this to add output"
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 ZnLogEvent >> printOn: stream [
 	timestamp printYMDOn: stream.
 	stream space.
@@ -107,18 +109,17 @@ ZnLogEvent >> printOn: stream [
 	self printContentsOn: stream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnLogEvent >> processId [
 	^ processId
 ]
 
-
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnLogEvent >> processId: anObject [
 	processId := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 ZnLogEvent >> timestamp [
 	^ timestamp
 ]

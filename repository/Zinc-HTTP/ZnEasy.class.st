@@ -16,19 +16,21 @@ For my implementation I use ZnClient, a full featured HTTP client.
 Part of Zinc HTTP Components.
 "
 Class {
-	#name : #ZnEasy,
-	#superclass : #Object,
-	#category : #'Zinc-HTTP-Client-Server'
+	#name : 'ZnEasy',
+	#superclass : 'Object',
+	#category : 'Zinc-HTTP-Client-Server',
+	#package : 'Zinc-HTTP',
+	#tag : 'Client-Server'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 ZnEasy class >> client [
 	^ ZnClient new
 		beOneShot;
 		yourself
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZnEasy class >> delete: urlObject [
 	^ self client
 		url: urlObject;
@@ -36,7 +38,7 @@ ZnEasy class >> delete: urlObject [
 		response
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZnEasy class >> get: urlObject [
 	"self get: 'http://stfx.eu/small.html'."
 
@@ -46,7 +48,7 @@ ZnEasy class >> get: urlObject [
 		response
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZnEasy class >> get: urlObject username: username password: password [
 	^ self client
 		url: urlObject;
@@ -55,7 +57,7 @@ ZnEasy class >> get: urlObject username: username password: password [
 		response
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZnEasy class >> head: urlObject [
 	^ self client
 		url: urlObject;
@@ -63,7 +65,7 @@ ZnEasy class >> head: urlObject [
 		response
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZnEasy class >> post: urlObject data: entity [
 	^ self client
 		url: urlObject;
@@ -72,7 +74,7 @@ ZnEasy class >> post: urlObject data: entity [
 		response
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 ZnEasy class >> put: urlObject data: entity [
 	^ self client
 		url: urlObject;
