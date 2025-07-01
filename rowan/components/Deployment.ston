@@ -14,7 +14,9 @@ RwSimpleProjectLoadComponentV2 {
     'Zinc-HTTP-GS64',
     'Zinc-Networking-GS64',
     'Zinc-Resource-Meta-Core',
-    'Zinc-Resource-Meta-GS64'
+    'Zinc-Resource-Meta-GS64',
+    'Zodiac-Core',
+    'Zodiac-GemStone-Core'
   ],
   #conditionalPackageMapSpecs : {
     'gemstone' : {
@@ -26,7 +28,9 @@ RwSimpleProjectLoadComponentV2 {
           'Zinc-HTTP-GS64' : { 'symbolDictName' : 'Globals' },
           'Zinc-Networking-GS64' : { 'symbolDictName' : 'Zinc' },
           'Zinc-Resource-Meta-Core' : { 'symbolDictName' : 'Zinc' },
-          'Zinc-Resource-Meta-GS64' : { 'symbolDictName' : 'Globals' }
+          'Zinc-Resource-Meta-GS64' : { 'symbolDictName' : 'Globals' },
+          'Zodiac-Core' : { 'symbolDictName' : 'Zinc' },
+          'Zodiac-GemStone-Core' : { 'symbolDictName' : 'Globals' }
         }
       }
     }

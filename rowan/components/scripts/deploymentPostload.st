@@ -1,4 +1,6 @@
 ZnNetworkingUtils default
   socketAddressClass: GsSocketAddress;
   socketClass: GsStreamingSocket;
-  socketStreamClass: GsSocketStream
+  socketStreamClass: GsSocketStream.
+  
+GsSecureSocket setCaCertLocation.

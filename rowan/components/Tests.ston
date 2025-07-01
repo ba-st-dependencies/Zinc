@@ -8,7 +8,8 @@ RwSimpleProjectLoadComponentV2 {
   #packageNames : [
     'Zinc-Character-Encoding-Tests',
     'Zinc-Resource-Meta-Tests',
-    'Zinc-Tests'
+    'Zinc-Tests',
+    'Zinc-Zodiac-Tests'
   ],
   #conditionalPackageMapSpecs : {
     'gemstone' : {
@@ -16,7 +17,8 @@ RwSimpleProjectLoadComponentV2 {
         #packageNameToPlatformPropertiesMap : {
           'Zinc-Character-Encoding-Tests' : { 'symbolDictName' : 'Zinc' },
           'Zinc-Tests' : { 'symbolDictName' : 'Zinc' },
-          'Zinc-Resource-Meta-Tests' : { 'symbolDictName' : 'Zinc' }
+          'Zinc-Resource-Meta-Tests' : { 'symbolDictName' : 'Zinc' },
+          'Zinc-Zodiac-Tests' : { 'symbolDictName' : 'Zinc' }
         }
       }
     }

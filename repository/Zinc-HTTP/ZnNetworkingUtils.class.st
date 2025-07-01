@@ -300,13 +300,12 @@ ZnNetworkingUtils >> socketStreamToUrl: url [
 { #category : #public }
 ZnNetworkingUtils >> socketStreamToUrlDirectly: url [
 	| stream address |
-	address := self socketAddressClass ipAddressForHostName: url host timeout: self timeout. 
-	stream := (self streamClassForScheme: url scheme) 
+	address := self socketAddressClass ipAddressForHostName: url host timeout: self timeout.
+	stream := (self streamClassForScheme: url scheme)
 		openConnectionToHost: address
 		port: url portOrDefault
-		timeout: self timeout.  
-	self setSocketStreamParameters: stream.  
-	(#(https wss) includes: url scheme) ifTrue: [ stream connect ].  
+		timeout: self timeout.
+	self setSocketStreamParameters: stream.
 	^ stream
 ]
 
