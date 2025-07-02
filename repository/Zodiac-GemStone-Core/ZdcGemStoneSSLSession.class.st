@@ -14,6 +14,7 @@ ZdcGemStoneSSLSession >> connect: srcBuf from: start to: stop into: dstBuf [
   "Start or continue the client handshake using the given input token"
   "Starts or continues a client handshake using the provided data.
 	Will eventually produce output to be sent to the server"
+  GsSecureSocket setCaCertLocation.
   self secureSocket secureConnect
     ifFalse: [ 
       | certError errorString |
