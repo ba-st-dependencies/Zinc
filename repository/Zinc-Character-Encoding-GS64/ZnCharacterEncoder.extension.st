@@ -24,6 +24,17 @@ ZnCharacterEncoder >> byteOrderMark [
 ]
 
 { #category : #'*Zinc-Character-Encoding-GS64' }
+ZnCharacterEncoder >> decodeAsCodePoints: bytes [
+	"Decode bytes and return the resulting code points"
+
+	| byteStream |
+	byteStream := bytes readStream.
+	^ Array streamContents: [ :stream |
+		[ byteStream atEnd ] whileFalse: [
+			stream nextPut: (self nextCodePointFromStream: byteStream) ] ]
+]
+
+{ #category : #'*Zinc-Character-Encoding-GS64' }
 ZnCharacterEncoder >> decodeBytes: bytes [
 	"Decode bytes and return the resulting string"
 
@@ -59,6 +70,15 @@ ZnCharacterEncoder class >> detectEncoding: bytes [
 		encoder := self newForEncoding: identifier.
 		[ ^ encoder decodeBytes: bytes; yourself ] on: ZnCharacterEncodingError do: [ ] ].
 	ZnCharacterEncodingError signal: 'No suitable encoder found'
+]
+
+{ #category : #'*Zinc-Character-Encoding-GS64' }
+ZnCharacterEncoder >> encodeCodePoints: codePoints [
+	"Encode codePoints and return the resulting byte array"
+
+	^ ByteArray streamContents: [ :stream |
+		codePoints do: [ :each |
+			self nextPutCodePoint: each toStream: stream ] ]
 ]
 
 { #category : #'*Zinc-Character-Encoding-GS64' }
@@ -109,6 +129,18 @@ ZnCharacterEncoder >> hash [
 { #category : #'*Zinc-Character-Encoding-GS64' }
 ZnCharacterEncoder class >> iso88591 [
 	^ self newForEncoding: 'iso-8859-1'
+]
+
+{ #category : #'*Zinc-Character-Encoding-GS64' }
+ZnCharacterEncoder class >> newForEncoding: string [
+	"Return a new character encoder object for an encoding described by string.
+	Search for a subclass that handles it and delegate (subclassResponsibility)."
+
+	| concreteSubclass |
+	concreteSubclass := self allSubclasses
+		detect: [ :each | each handlesEncoding: string ]
+		ifNone: [ ^ self default ].
+	^ concreteSubclass newForEncoding: string
 ]
 
 { #category : #'*Zinc-Character-Encoding-GS64' }
