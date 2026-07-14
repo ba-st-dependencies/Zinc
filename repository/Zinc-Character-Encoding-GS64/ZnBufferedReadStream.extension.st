@@ -24,3 +24,9 @@ ZnBufferedReadStream >> back [
 				position := position - 1.
 				char ] ]
 ]
+
+{ #category : #'*Zinc-Character-Encoding-GS64' }
+ZnBufferedReadStream >> setToEnd [
+
+	self position: stream size
+]

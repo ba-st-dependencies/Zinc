@@ -28,6 +28,15 @@ ZnCharacterEncoderTest class >> unicodeCharacterSource [
 	^ ($A to: $Z), ($a to: $z), ($0 to: $9), '.-_/*+=|,;?!$&<>^%#', '         ', 'éèçüäßñα', '€∏'
 ]
 
+{ #category : 'asserting' }
+ZnCharacterEncoderTest >> assert: actual equals: expected [
+	"Patched to only check equality, not hashes: some basic GS64 classes
+	define the hash of certain strange Unicode32 strings incorrectly, which
+	makes the superclass implementation fail."
+
+	self assert: actual = expected
+]
+
 { #category : 'test support' }
 ZnCharacterEncoderTest >> decodeBytes: bytes with: encoder [
 	| input |

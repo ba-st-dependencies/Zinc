@@ -7,6 +7,16 @@ ByteArray >> asString [
 ]
 
 { #category : #'*Zinc-Character-Encoding-GS64' }
+ByteArray >> decodeFromUTF8 [
+	"Decode receiver from UTF8 format.
+	 Returns either a Unicode7 , Unicode16 or Unicode32 ,
+	 using the minimum character size needed to represent decoded result."
+
+	^ self handleArgumentErrorDuring: [
+		  self _decodeUtf8StartingAt: 1 unicodeResult: true maxSize: nil bytesConsumed: nil ]
+]
+
+{ #category : #'*Zinc-Character-Encoding-GS64' }
 ByteArray >> handleArgumentErrorDuring: aBlock [
 
 	^ aBlock
